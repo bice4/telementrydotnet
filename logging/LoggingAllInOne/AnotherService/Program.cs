@@ -1,5 +1,6 @@
 using AnotherService.Workers;
 using Serilog;
+using Serilog.Sinks.Grafana.Loki;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,9 +24,14 @@ builder.Host.UseSerilog((hbc, lc) =>
 
     var env = hbc.Configuration.GetValue<string>("ASPNETCORE_ENVIRONMENT", "Unknown");
 
-    var logPath = Path.Combine(env == "Development" ? "C:\\Projects\\telementrydotnet\\logging\\Logs\\" : "Logs", $"{serviceName}.log");
+   // var logPath = Path.Combine(env == "Development" ? "C:\\Projects\\telementrydotnet\\logging\\Logs\\" : "Logs", $"{serviceName}.log");
 
-    lc.WriteTo.File(logPath, rollingInterval: RollingInterval.Day);
+   // lc.WriteTo.File(logPath, rollingInterval: RollingInterval.Day);
+
+    lc.WriteTo.GrafanaLoki("http://host.docker.internal:3100", new LokiLabel[] {
+        new LokiLabel(){Key = "service", Value = serviceName},
+        new LokiLabel(){Key = "environment", Value = env},
+    }, new List<string>() { "service" });
 });
 
 
