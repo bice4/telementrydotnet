@@ -27,23 +27,44 @@
         "type": "loki",
         "uid": "P8E80F9AEF21F6940"
       },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
       "gridPos": {
-        "h": 8,
-        "w": 12,
+        "h": 4,
+        "w": 4,
         "x": 0,
         "y": 0
       },
-      "id": 3,
+      "id": 2,
       "options": {
-        "dedupStrategy": "none",
-        "enableLogDetails": true,
-        "prettifyLogMessage": true,
-        "showCommonLabels": false,
-        "showLabels": false,
-        "showTime": true,
-        "sortOrder": "Ascending",
-        "wrapLogMessage": false
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
       },
+      "pluginVersion": "10.1.4",
       "targets": [
         {
           "datasource": {
@@ -51,36 +72,62 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "builder",
-          "expr": "{service=\"AnotherService2\"} |= ``",
+          "expr": "sum by(service) (count_over_time({service=\"$service\"} |= `info` [$__range]))",
           "queryType": "range",
           "refId": "A"
         }
       ],
-      "title": "AnotherService2",
-      "type": "logs"
+      "title": "Info count",
+      "type": "stat"
     },
     {
       "datasource": {
         "type": "loki",
         "uid": "P8E80F9AEF21F6940"
       },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-BlPu"
+          },
+          "displayName": "$service",
+          "mappings": [],
+          "max": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
       "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
+        "h": 4,
+        "w": 4,
+        "x": 4,
         "y": 0
       },
-      "id": 2,
+      "id": 3,
       "options": {
-        "dedupStrategy": "none",
-        "enableLogDetails": true,
-        "prettifyLogMessage": false,
-        "showCommonLabels": false,
-        "showLabels": false,
-        "showTime": true,
-        "sortOrder": "Ascending",
-        "wrapLogMessage": false
+        "displayMode": "lcd",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true,
+        "valueMode": "color"
       },
+      "pluginVersion": "10.1.4",
       "targets": [
         {
           "datasource": {
@@ -88,13 +135,13 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "builder",
-          "expr": "{service=\"AnotherService1\"} |= ``",
+          "expr": "sum by(service) (count_over_time({service=\"$service\"} |= `error` [$__range]))",
           "queryType": "range",
           "refId": "A"
         }
       ],
-      "title": "AnotherService1",
-      "type": "logs"
+      "title": "Error count",
+      "type": "bargauge"
     },
     {
       "datasource": {
@@ -105,7 +152,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 8
+        "y": 4
       },
       "id": 1,
       "options": {
@@ -115,7 +162,7 @@
         "showCommonLabels": false,
         "showLabels": false,
         "showTime": true,
-        "sortOrder": "Descending",
+        "sortOrder": "Ascending",
         "wrapLogMessage": false
       },
       "targets": [
@@ -125,12 +172,12 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "builder",
-          "expr": "{app=\"ApiGateway\"} |= ``",
+          "expr": "{service=\"$service\"} |= `$filter`",
           "queryType": "range",
           "refId": "A"
         }
       ],
-      "title": "Api gateway",
+      "title": "Logs",
       "type": "logs"
     }
   ],
@@ -139,16 +186,66 @@
   "style": "dark",
   "tags": [],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": "ApiGateway",
+          "value": "ApiGateway"
+        },
+        "datasource": {
+          "type": "loki",
+          "uid": "P8E80F9AEF21F6940"
+        },
+        "definition": "",
+        "description": "For service selector",
+        "hide": 0,
+        "includeAll": false,
+        "label": "service",
+        "multi": false,
+        "name": "service",
+        "options": [],
+        "query": {
+          "label": "service",
+          "refId": "LokiVariableQueryEditor-VariableQuery",
+          "stream": "",
+          "type": 1
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "Post",
+          "value": "Post"
+        },
+        "hide": 0,
+        "name": "filter",
+        "options": [
+          {
+            "selected": true,
+            "text": "Post",
+            "value": "Post"
+          }
+        ],
+        "query": "Post",
+        "skipUrlSync": false,
+        "type": "textbox"
+      }
+    ]
   },
   "time": {
-    "from": "now-5m",
+    "from": "now-30m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Logs",
-  "uid": "ba7f93d4-3a01-4589-a469-4bf781fd814b",
-  "version": 2,
+  "title": "Logs dashboard",
+  "uid": "b54dba90-b579-41b1-ad1e-9b73be49e7d3",
+  "version": 3,
   "weekStart": ""
 }
