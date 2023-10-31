@@ -1,5 +1,13 @@
 ﻿services:
   
+  seq:
+    image: datalust/seq:latest
+    ports:
+      - '80:80'
+      - '5341:5341'
+    environment:
+      ACCEPT_EULA: Y
+  
   api:
     image: apigateway
     build:
@@ -69,6 +77,6 @@
       - ASPNETCORE_URLS=http://+:8041
       - SERVICE_NAME=AnotherService3
       - TimerIntervalMs=5000
-        
+
 networks:
   backend:

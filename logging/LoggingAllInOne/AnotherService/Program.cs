@@ -17,15 +17,35 @@ builder.Configuration.AddEnvironmentVariables();
 
 builder.Host.UseSerilog((hbc, lc) =>
 {
+    lc.Enrich.WithMachineName();
+    lc.Enrich.WithThreadId();
+    lc.Enrich.WithThreadName();
+    lc.Enrich.WithEnvironmentUserName();
+    lc.Enrich.WithMemoryUsage();
+    
+    lc.Enrich.FromLogContext();
     lc.WriteTo.Console();
 
-    var serviceName = hbc.Configuration.GetValue<string>("SERVICE_NAME", "Unknown");
+    // var serviceName = hbc.Configuration.GetValue<string>("SERVICE_NAME", "Unknown");
+    //
+    // var env = hbc.Configuration.GetValue<string>("ASPNETCORE_ENVIRONMENT", "Unknown");
 
-    var env = hbc.Configuration.GetValue<string>("ASPNETCORE_ENVIRONMENT", "Unknown");
+    #region Write to file 
 
-    var logPath = Path.Combine(env == "Development" ? "C:\\Projects\\telementrydotnet\\logging\\Logs\\" : "Logs", $"{serviceName}.log");
+    //var logPath = Path.Combine(env == "Development" ? "C:\\Projects\\telementrydotnet\\logging\\Logs\\" : "Logs", $"{serviceName}.log");
 
-    lc.WriteTo.File(logPath, rollingInterval: RollingInterval.Day);
+    //lc.WriteTo.File(logPath, rollingInterval: RollingInterval.Day);
+
+    #endregion
+
+    #region Write to Seq
+    
+    var seqUrl = hbc.Configuration.GetValue<string>("SEQ_URL", "http://host.docker.internal:5341");
+    
+    lc.WriteTo.Seq(seqUrl!);
+    
+    #endregion
+    
 });
 
 
@@ -39,5 +59,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapControllers();
+app.UseSerilogRequestLogging();
 
 app.Run();
