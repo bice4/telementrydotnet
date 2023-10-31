@@ -17,16 +17,18 @@ builder.Configuration.AddEnvironmentVariables();
 
 builder.Host.UseSerilog((hbc, lc) =>
 {
+    var serviceName = hbc.Configuration.GetValue<string>("SERVICE_NAME", "Unknown")!;
+
     lc.Enrich.WithMachineName();
     lc.Enrich.WithThreadId();
     lc.Enrich.WithThreadName();
     lc.Enrich.WithEnvironmentUserName();
     lc.Enrich.WithMemoryUsage();
+    lc.Enrich.WithProperty("ServiceName", serviceName);
     
     lc.Enrich.FromLogContext();
     lc.WriteTo.Console();
 
-    // var serviceName = hbc.Configuration.GetValue<string>("SERVICE_NAME", "Unknown");
     //
     // var env = hbc.Configuration.GetValue<string>("ASPNETCORE_ENVIRONMENT", "Unknown");
 

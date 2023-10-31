@@ -12,7 +12,10 @@ builder.Logging.ClearProviders();
 builder.Configuration.AddEnvironmentVariables();
 
 builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
-    loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration));
+{
+    loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration);
+    loggerConfiguration.Enrich.WithProperty("ServiceName", "ApiGateway");
+});
 
 var app = builder.Build();
 
