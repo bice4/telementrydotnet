@@ -20,18 +20,23 @@ builder.Logging.ClearProviders();
 builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
     loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration));
 
+builder.Services.AddHttpLogging(o => o.LoggingFields = HttpLoggingFields.All);
 
 // Configure OpenTelemetry
 builder.Services.AddOpenTelemetry()
-    .WithMetrics(b =>
+    .ConfigureResource(b =>
     {
-        b.SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("WebApi"));
-        b.AddAspNetCoreInstrumentation(o => { o.Filter = (_, ctx) => ctx.Request.Path != "/metrics"; });
-        b.AddHttpClientInstrumentation();
-        b.AddRuntimeInstrumentation();
-        b.AddProcessInstrumentation();
-        b.AddPrometheusExporter(x => x.ScrapeResponseCacheDurationMilliseconds = 0);
-    });
+        b.AddService("WebApi");
+    })
+    .WithMetrics(b => b
+        .AddAspNetCoreInstrumentation(o =>
+        {
+            o.Filter = (_, ctx) => ctx.Request.Path != "/metrics";
+        })
+        .AddHttpClientInstrumentation()
+        .AddRuntimeInstrumentation()
+        .AddProcessInstrumentation()
+        .AddPrometheusExporter());
 
 
 var app = builder.Build();
@@ -44,5 +49,6 @@ app.UseSwaggerUI();
 
 app.UseSerilogRequestLogging();
 app.MapPrometheusScrapingEndpoint();
+app.UseHttpLogging();
 app.MapControllers();
 app.Run();
