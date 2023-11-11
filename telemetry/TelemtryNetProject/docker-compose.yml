@@ -1,0 +1,167 @@
+﻿version: "3.5"
+
+services:
+  jaeger:
+    image: jaegertracing/all-in-one:1.50
+    command: --query.ui-config=/etc/jaeger/jaeger-ui.json --collector.otlp.enabled=true --prometheus.server-url=http://prometheus:9090 --prometheus.query.support-spanmetrics-connector=true
+    environment:
+      - METRICS_STORAGE_TYPE=prometheus
+    volumes:
+      - ./Configs/jaeger-ui.json:/etc/jaeger/jaeger-ui.json
+    ports:
+      - "127.0.0.1:16686:16686"
+    networks:
+      - backend
+  
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.86.0
+    command: --config /etc/otelcol/otel-collector-config.yml
+    volumes:
+      - ./Configs/otel-collector-config.yml:/etc/otelcol/otel-collector-config.yml
+    ports:
+      - "127.0.0.1:4317:4317"
+    networks:
+      - backend
+    depends_on:
+      - jaeger
+  
+  prometheus:
+    image: prom/prometheus:v2.47.1
+    volumes:
+      - ./Configs/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "127.0.0.1:9090:9090"
+    networks:
+      - backend
+  
+  loki:
+    image: grafana/loki:2.9.1
+    command: -config.file=/mnt/config/loki-config.yml
+    volumes:
+      - ./Configs/loki.yml:/mnt/config/loki-config.yml
+    ports:
+      - "127.0.0.1:3100:3100"
+    networks:
+      - backend
+  
+  grafana:
+    image: grafana/grafana:10.1.4
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_DISABLE_LOGIN_FORM=true
+    volumes:
+      - ./Configs/grafana.ini:/etc/grafana/grafana.ini
+      - ./Configs/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yaml
+      - ./Configs/dashboard.yml:/etc/grafana/provisioning/dashboards/dashboard.yml
+      - ./Configs/dotnet-otel-dashboard.json:/etc/grafana/provisioning/dashboards/dotnet-otel-dashboard.json
+      - ./Configs/logs-dashboard.json:/etc/grafana/provisioning/dashboards/logs-dashboard.json
+      - ./Configs/customMetrics-dashboard.json:/etc/grafana/provisioning/dashboards/customMetrics-dashboard.json
+    ports:
+      - "127.0.0.1:3000:3000"
+    networks:
+      - backend
+
+  mongoDb:
+    image: mongo:6-jammy
+    ports:
+      - '27017:27017'
+    networks:
+      - backend
+
+  rabbitmq:
+    image: rabbitmq:3.12-management
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=password
+      - RABBITMQ_DEFAULT_VHOST=telemetrynet
+    ports:
+      - "127.0.0.1:5672:5672"
+      - "127.0.0.1:15672:15672"
+    networks:
+      - backend
+
+  api-gateway:
+    build:
+      dockerfile: ApiGateway/Dockerfile
+      context: .
+    image: api-gateway
+    environment:
+      - OTEL_EXPORTER_JAEGER_AGENT_HOST=jaeger
+      - OTEL_EXPORTER_JAEGER_AGENT_PORT=6831
+      - OTEL_EXPORTER_JAEGER_ENDPOINT=http://jaeger:14268/api/traces
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+      - ASPNETCORE_URLS=http://+:8090
+      - ValidationServiceUrl=http://validation-service:8070/Validation/
+      - RabbitMq__ConnectionString=amqp://admin:password@rabbitmq:5672/telemetrynet
+    ports:
+      - "127.0.0.1:8080:8090"
+    networks:
+      - backend
+    depends_on:
+      - rabbitmq
+      - validation-service
+  
+  validation-service:
+    build:
+      dockerfile: ValidationService/Dockerfile
+      context: .
+    image: valiadation-service
+    environment:
+      - OTEL_EXPORTER_JAEGER_AGENT_HOST=jaeger
+      - OTEL_EXPORTER_JAEGER_AGENT_PORT=6831
+      - OTEL_EXPORTER_JAEGER_ENDPOINT=http://jaeger:14268/api/traces
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+      - ASPNETCORE_URLS=http://+:8070
+      - UserServiceUrl=http://user-service:8060/User/
+    ports:
+      - "127.0.0.1:8070:8070"
+    networks:
+      - backend
+    depends_on:
+      - user-service
+  
+  user-service:
+    build:
+      dockerfile: UserManagement.Api/Dockerfile
+      context: .
+    image: user-service
+    environment:
+      - OTEL_EXPORTER_JAEGER_AGENT_HOST=jaeger
+      - OTEL_EXPORTER_JAEGER_AGENT_PORT=6831
+      - OTEL_EXPORTER_JAEGER_ENDPOINT=http://jaeger:14268/api/traces
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+      - ASPNETCORE_URLS=http://+:8060
+      - MongoDb__ConnectionString=mongodb://mongoDb:27017
+    ports:
+      - "127.0.0.1:8060:8060"
+    networks:
+      - backend
+    depends_on:
+      - mongoDb
+  
+  order-service:
+    build:
+      dockerfile: OrderManagement.Api/Dockerfile
+      context: .
+    image: order-service
+    environment:
+      - OTEL_EXPORTER_JAEGER_AGENT_HOST=jaeger
+      - OTEL_EXPORTER_JAEGER_AGENT_PORT=6831
+      - OTEL_EXPORTER_JAEGER_ENDPOINT=http://jaeger:14268/api/traces
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+      - ASPNETCORE_URLS=http://+:8050
+      - MongoDb__ConnectionString=mongodb://mongoDb:27017
+      - RabbitMq__ConnectionString=amqp://admin:password@rabbitmq:5672/telemetrynet
+      - UserServiceUrl=http://user-service:8060/User/
+
+    ports:
+      - "127.0.0.1:8050:8050"
+    networks:
+      - backend
+    depends_on:
+      - mongoDb
+      - rabbitmq
+
+networks:
+  backend:
