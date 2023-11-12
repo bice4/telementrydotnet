@@ -19,20 +19,23 @@ Links:
 3) Order service - for managing orders and store them
 4) User service - for managing users and store them
 
-## 📊 Components diagram
+#### 📊 Components diagram
 
 ![](/imgs/service-diagram.drawio.png)
 
 Services for OpenTelemetry:
-1) Prometheus - save metrics
+1) Prometheus - storage for metrics
 2) Loki - log storage 
-3) Jaeger - tracing
-4) Grafana - visualize
+3) Jaeger - tracing UI
+4) Grafana - metric/logs UI
 5) Otel-collector - collector for logs/metrics/tracing
 6) MongoDb - database for entities
 7) RabbitMQ - for async communication
 
-## 🚀 How to run locally
+Flow:
+![](imgs/flow.drawio.png)
+
+## 🚀 How to
 * Ensure you have `Docker` installed and running.
 * Ensure you have `docker-compose` installed.
 * Go to scripts folder and run ``build-all.bat``
