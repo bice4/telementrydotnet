@@ -1,4 +1,5 @@
-﻿using TelemtryNetProject.Contracts.UserManagement.Api.V1.Requests;
+﻿using TelemtryNetProject.Contracts.UserManagement.Api.V1.Models;
+using TelemtryNetProject.Contracts.UserManagement.Api.V1.Requests;
 using TelemtryNetProject.Contracts.UserManagement.Api.V1.Responses;
 
 namespace OrderManagementApi.ExternalServices;
@@ -12,16 +13,14 @@ public class UserService
         _httpClient = httpClient;
     }
 
-    public async Task<string> CreateUser(CreateUserRequest createUserRequest, CancellationToken cancellationToken)
+    public async Task<CreateUserResponse?> CreateUser(CreateUserRequest createUserRequest, CancellationToken cancellationToken)
     {
         var response = await _httpClient.PostAsJsonAsync("create", createUserRequest, cancellationToken);
         response.EnsureSuccessStatusCode();
 
-        var content = await response.Content.ReadAsStringAsync(cancellationToken);
-
-        return content;
+        return await response.Content.ReadFromJsonAsync<CreateUserResponse>(cancellationToken: cancellationToken);
     }
-
+    
     public async Task DeleteUser(string userId, CancellationToken cancellationToken)
     {
         var response = await _httpClient.DeleteAsync(userId, cancellationToken);

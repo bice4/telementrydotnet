@@ -93,6 +93,8 @@ services:
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
       - ASPNETCORE_URLS=http://+:8090
       - ValidationServiceUrl=http://validation-service:8070/Validation/
+      - UserServiceUrl=http://user-service:8060/User/
+      - OrderServiceUrl=http://order-service:8050/Order/
       - RabbitMq__ConnectionString=amqp://admin:password@rabbitmq:5672/telemetrynet
     ports:
       - "127.0.0.1:8080:8090"

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
+using TelemtryNetProject.Contracts.UserManagement.Api.V1.Models;
 using TelemtryNetProject.Contracts.UserManagement.Api.V1.Requests;
 using TelemtryNetProject.Contracts.UserManagement.Api.V1.Responses;
 using UserManagement.Domain.Repositories;
@@ -27,7 +28,15 @@ public class UserController : ControllerBase
         _userMetrics = userMetrics;
     }
 
+    /// <summary>
+    /// Get all users
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns>List of all users</returns>
     [HttpGet(Name = "GetAll")]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(IEnumerable<UserShortDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
     {
         _logger.LogDebug("GetAll called");
@@ -44,7 +53,17 @@ public class UserController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Get user by id
+    /// </summary>
+    /// <param name="id">Id of specific user</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>User for provided id</returns>
     [HttpGet("{id}", Name = "GetById")]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(UserFullDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetById(string id, CancellationToken cancellationToken)
     {
         _logger.LogInformation("GetById called with id: {Id}", id);
@@ -53,12 +72,9 @@ public class UserController : ControllerBase
         {
             var user = await _userRepository.GetUserAsync(ObjectId.Parse(id), cancellationToken);
 
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(user.ToUserFullDto());
+            return user == null
+                ? NotFound()
+                : new ObjectResult(user.ToUserFullDto());
         }
         catch (Exception e)
         {
@@ -66,23 +82,31 @@ public class UserController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Create new user
+    /// </summary>
+    /// <param name="request">Data for new user</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>User id of created user</returns>
     [HttpPost("create")]
-    public async Task<IActionResult> CreateUser(CreateUserRequest request, CancellationToken cancellationToken)
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> Create(CreateUserRequest request, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("CreateUser called with request: {Request}", request);
+        _logger.LogInformation("Create user with request: {Request}", request);
 
         try
         {
             var passwordHash = _passwordHasherService.HashPassword(request.Password);
-            var user = request.ToUser();
-
-            user.UpdatePassword(passwordHash);
-
+            var user = request.ToUser(passwordHash);
+            
             await _userRepository.AddUserAsync(user, cancellationToken);
 
+            // If user was created successfully, update metrics
             _userMetrics.UpdateUserMetrics(1);
 
-            return new OkObjectResult(user.Id.ToString());
+            return new OkObjectResult(new CreateUserResponse(user.Id.ToString()!));
         }
         catch (Exception e)
         {
@@ -90,62 +114,17 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpPut("updateAddress")]
-    public async Task<IActionResult> UpdateUserAddress(UpdateUserAddressRequest request,
-        CancellationToken cancellationToken)
-    {
-        _logger.LogInformation("UpdateUserAddress called with request: {Request}", request);
-
-        try
-        {
-            var user = await _userRepository.GetUserAsync(ObjectId.Parse(request.UserId), cancellationToken);
-
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            user.UpdateAddress(request.ToAddress());
-
-            await _userRepository.UpdateUserAsync(user, cancellationToken);
-
-            return Ok();
-        }
-        catch (Exception e)
-        {
-            return LogExceptionAndReturnError(e);
-        }
-    }
-
-    [HttpPut("updatePassword")]
-    public async Task<IActionResult> UpdateUserPassword(UpdateUserPasswordRequest request,
-        CancellationToken cancellationToken)
-    {
-        _logger.LogInformation("UpdateUserPassword called with request: {Request}", request);
-
-        try
-        {
-            var user = await _userRepository.GetUserAsync(ObjectId.Parse(request.UserId), cancellationToken);
-
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            var passwordHash = _passwordHasherService.HashPassword(request.Password);
-            user.UpdatePassword(passwordHash);
-
-            await _userRepository.UpdateUserAsync(user, cancellationToken);
-
-            return Ok();
-        }
-        catch (Exception e)
-        {
-            return LogExceptionAndReturnError(e);
-        }
-    }
-
+    /// <summary>
+    /// Delete user by id
+    /// </summary>
+    /// <param name="id">Id of specific user</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>OK</returns>
     [HttpDelete("{id}")]
+    [Produces("application/json")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> DeleteUser(string id, CancellationToken cancellationToken)
     {
         _logger.LogInformation("DeleteUser called with id: {Id}", id);
@@ -159,6 +138,7 @@ public class UserController : ControllerBase
                 return NotFound();
             }
 
+            // If user was deleted successfully, update metrics
             _userMetrics.UpdateUserMetrics(-1);
 
             return Ok();
@@ -169,14 +149,23 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpGet("exists/{email}", Name = "Exists")]
+    /// <summary>
+    /// Check if user email exists
+    /// </summary>
+    /// <param name="email">Specific email</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>Response with existing</returns>
+    [HttpGet("users/{email}", Name = "Exists")]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(EmailExistsResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> IsUserEmailExists(string email, CancellationToken cancellationToken)
     {
         _logger.LogInformation("IsUserEmailExists called with id: {Email}", email);
 
         try
         {
-            var isEmailUniqueAsync = await _userRepository.IsEmailExists(email, cancellationToken);
+            var isEmailUniqueAsync = await _userRepository.UserWithEmailExistsAsync(email, cancellationToken);
 
             return new ObjectResult(new EmailExistsResponse() {
                 Exists = isEmailUniqueAsync

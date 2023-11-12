@@ -1,10 +1,10 @@
 ﻿using System.Diagnostics;
-using System.Transactions;
 using OrderManagement.Domain.Repositories;
 using OrderManagementApi.ExternalServices;
 using OrderManagementApi.Metrics;
 using OrderManagementApi.Translators;
 using TelemtryNetProject.Contracts.Order.RabbitMq.v1.Requests;
+using TelemtryNetProject.Contracts.UserManagement.Api.V1.Responses;
 
 namespace OrderManagementApi.Services;
 
@@ -24,33 +24,54 @@ public class OrderService
         _userService = userService;
     }
 
+    /// <summary>
+    /// Place order for user
+    /// </summary>
+    /// <param name="placeOrderModel"><see cref="PlaceOrderModel"/> model</param>
+    /// <param name="cancellationToken"></param>
     public async Task PlaceOrder(PlaceOrderModel placeOrderModel, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Placing order for user {PlaceOrderModel}", placeOrderModel);
+        _logger.LogInformation("Placing order {PlaceOrderModel}", placeOrderModel);
 
         var stopwatch = Stopwatch.StartNew();
 
         try
         {
-            var userId = await _userService.CreateUser(placeOrderModel.User, cancellationToken: cancellationToken);
+            // Call user service to create user and get user id
+            var createUserResponse =
+                await _userService.CreateUser(placeOrderModel.User, cancellationToken: cancellationToken);
+
+            if (createUserResponse == null)
+            {
+                _logger.LogError("Error while creating user");
+                return;
+            }
 
             try
             {
-                var order = placeOrderModel.Order.ToOrder(userId);
+                // Create order
+                var order = placeOrderModel.Order.ToOrder(createUserResponse.UserId);
 
+                // Add order
                 await _orderRepository.AddOrderAsync(order, cancellationToken);
+
+                // Update metrics for order
+                // Add order count +1
                 _metrics.AddOrder();
+
+                // Add order items count = sum of all order items quantity
                 _metrics.AddOrderItems(order.Items.Sum(x => x.Quantity));
             }
             catch (Exception e)
             {
+                // If error occured while adding order, delete user
                 _logger.LogError(e, "Error while adding order, deleting user, exception: {Exception}", e.Message);
-                await _userService.DeleteUser(userId, cancellationToken);
+                await _userService.DeleteUser(createUserResponse.UserId, cancellationToken);
             }
 
-
             stopwatch.Stop();
-            _logger.LogInformation("Order placed for user {UserId} takes: {Elapsed}", userId, stopwatch.Elapsed);
+            _logger.LogInformation("Order placed for user {UserId} takes: {Elapsed}", createUserResponse.UserId,
+                stopwatch.Elapsed);
         }
         finally
         {

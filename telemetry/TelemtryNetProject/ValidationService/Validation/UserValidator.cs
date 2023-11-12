@@ -16,6 +16,12 @@ public class UserValidator : IValidator<CreateUserRequest>
         _userService = userService;
     }
 
+    /// <summary>
+    /// Validate create user request
+    /// </summary>
+    /// <param name="request"><see cref="CreateUserRequest"/> model</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>Validation results collection of <see cref="ValidationResult"/></returns>
     public async Task<List<ValidationResult>> ValidateAsync(CreateUserRequest request,
         CancellationToken cancellationToken)
     {
@@ -23,6 +29,7 @@ public class UserValidator : IValidator<CreateUserRequest>
 
         try
         {
+            // Call external service (User service) to check if email exists
             var isEmailExists = await _userService.IsEmailExistsAsync(request.Email, cancellationToken);
             if (isEmailExists == null)
             {
@@ -35,7 +42,9 @@ public class UserValidator : IValidator<CreateUserRequest>
         }
         catch (Exception e)
         {
-            results.Add(ValidationResult.CreateExceptionResult("Exception occured", e.Message));
+            // If external service is not available, return exception result
+            // This is just an example, in real world you should handle this case
+            results.Add(ValidationResult.CreateExceptionResult("An error occurred while calling UserService", e.Message));
         }
         
         if (UnsupportedCountries.Contains(request.Country))

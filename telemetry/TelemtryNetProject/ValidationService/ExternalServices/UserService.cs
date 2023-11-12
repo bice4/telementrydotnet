@@ -13,7 +13,7 @@ public class UserService
 
     public async Task<bool?> IsEmailExistsAsync(string email, CancellationToken cancellationToken)
     {
-        var response = await _httpClient.GetAsync($"exists/{email}", cancellationToken);
+        var response = await _httpClient.GetAsync($"users/{email}", cancellationToken);
         response.EnsureSuccessStatusCode();
 
         var content = await response.Content.ReadFromJsonAsync<EmailExistsResponse>(cancellationToken: cancellationToken);

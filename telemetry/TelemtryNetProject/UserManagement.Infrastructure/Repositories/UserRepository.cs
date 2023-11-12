@@ -16,7 +16,7 @@ public class UserRepository : IUserRepository
         _configuration = configuration;
     }
 
-    public Task<bool> IsEmailExists(string email, CancellationToken cancellationToken)
+    public Task<bool> UserWithEmailExistsAsync(string email, CancellationToken cancellationToken)
     {
         var collection = GetCollection();
         return collection.Find(x => x.Email == email).AnyAsync(cancellationToken: cancellationToken);
@@ -27,14 +27,7 @@ public class UserRepository : IUserRepository
         var collection = GetCollection();
         return collection.InsertOneAsync(user, cancellationToken: cancellationToken);
     }
-
-    public Task<bool> UpdateUserAsync(User user, CancellationToken cancellationToken)
-    {
-        var collection = GetCollection();
-        return collection.ReplaceOneAsync(x => x.Id == user.Id, user, cancellationToken: cancellationToken)
-            .ContinueWith(x => x.Result.IsAcknowledged && x.Result.ModifiedCount > 0, cancellationToken);
-    }
-
+    
     public Task<bool> DeleteUserAsync(ObjectId id, CancellationToken cancellationToken)
     {
         var collection = GetCollection();
@@ -46,12 +39,6 @@ public class UserRepository : IUserRepository
     {
         var collection = GetCollection();
         return collection.Find(x => x.Id == id).FirstOrDefaultAsync(cancellationToken: cancellationToken)!;
-    }
-
-    public Task<User?> GetUserByEmailAsync(string email, CancellationToken cancellationToken)
-    {
-        var collection = GetCollection();
-        return collection.Find(x => x.Email == email).FirstOrDefaultAsync(cancellationToken: cancellationToken)!;
     }
 
     public Task<List<User>> GetUsersAsync(CancellationToken cancellationToken)
@@ -71,7 +58,6 @@ public class UserRepository : IUserRepository
         databaseName ??= "UserManagement";
 
         var client = new MongoClient(connectionString);
-
         var database = client.GetDatabase(databaseName);
 
         return database.GetCollection<User>(COLLECTION_NAME);

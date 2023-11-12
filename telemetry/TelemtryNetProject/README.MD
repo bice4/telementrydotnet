@@ -24,13 +24,13 @@ Links:
 ![](/imgs/service-diagram.drawio.png)
 
 Services for OpenTelemetry:
-1) Prometheus
-2) Loki
-3) Jaeger
-4) Grafana
-5) Otel-collector
-6) MongoDb
-7) RabbitMQ
+1) Prometheus - save metrics
+2) Loki - log storage 
+3) Jaeger - tracing
+4) Grafana - visualize
+5) Otel-collector - collector for logs/metrics/tracing
+6) MongoDb - database for entities
+7) RabbitMQ - for async communication
 
 ## 🚀 How to run locally
 * Ensure you have `Docker` installed and running.

@@ -1,4 +1,6 @@
+using System.Reflection;
 using Microsoft.AspNetCore.HttpLogging;
+using Microsoft.OpenApi.Models;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
@@ -29,7 +31,18 @@ builder.Logging
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo {
+        Version = "v1",
+        Title = "User Management API",
+        Description = "An ASP.NET Core Web API for managing users"
+    });
+
+    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+});
+
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddSingleton<IPasswordHasherService, PasswordHasherHasherService>();
 builder.Services.AddHttpLogging(o => o.LoggingFields = HttpLoggingFields.All);

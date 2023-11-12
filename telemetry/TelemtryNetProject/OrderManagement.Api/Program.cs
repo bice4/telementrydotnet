@@ -1,4 +1,6 @@
+using System.Reflection;
 using Microsoft.AspNetCore.HttpLogging;
+using Microsoft.OpenApi.Models;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
@@ -31,7 +33,17 @@ builder.Logging
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo {
+        Version = "v1",
+        Title = "Order management API",
+        Description = "An ASP.NET Core Web API for manage orders"
+    });
+
+    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+});
 
 builder.Services.AddHttpLogging(o => o.LoggingFields = HttpLoggingFields.All);
 builder.Services.AddHealthChecks();
@@ -68,7 +80,6 @@ var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
-
 
 app.MapHealthChecks("/health");
 app.UseOpenTelemetryPrometheusScrapingEndpoint();

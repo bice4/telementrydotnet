@@ -13,9 +13,4 @@ public static class AddressTranslator
     public static Address ToAddress(this CreateUserRequest request)
         => new(request.Country, request.City, request.Street, request.ZipCode, request.ApartmentNumber,
             request.BuildingNumber, request.Floor);
-
-    public static Address ToAddress(this UpdateUserAddressRequest request)
-        => new(request.Country, request.City, request.Street, request.ZipCode, request.ApartmentNumber,
-            request.BuildingNumber, request.Floor);
-
 }

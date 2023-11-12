@@ -9,76 +9,100 @@ using TelemtryNetProject.Contracts.Order.RabbitMq.v1.Requests;
 
 namespace OrderManagementApi.Workers;
 
-public class MessagesProcessingService : BackgroundService
+/// <summary>
+/// Messages processing service, responsible for processing messages from RabbitMQ
+/// Producer: ApiGateway
+/// Process message: <see cref="PlaceOrderModel"/>
+/// </summary>
+public class MessagesProcessingService : IHostedService
 {
     public static readonly string TraceActivityName = typeof(MessagesProcessingService).FullName!;
     private static readonly ActivitySource TraceActivitySource = new(TraceActivityName);
 
     private readonly ILogger<MessagesProcessingService> _logger;
 
-    private readonly IConnection _connection;
-    private readonly IModel _channel;
-
     private readonly OrderService _orderService;
+    private readonly IConfiguration _configuration;
 
     private readonly string _queueName;
 
-    public MessagesProcessingService(
-        IConfiguration configuration,
-        IHostApplicationLifetime hostApplicationLifetime, ILogger<MessagesProcessingService> logger,
+    private EventingBasicConsumer? _consumer;
+
+    public MessagesProcessingService(IConfiguration configuration, ILogger<MessagesProcessingService> logger,
         OrderService orderService)
     {
+        _configuration = configuration;
         _logger = logger;
         _orderService = orderService;
 
+        _queueName = _configuration.GetSection("RabbitMq:QueueName").Value ?? "orders";
+    }
+
+    public async Task StartAsync(CancellationToken cancellationToken)
+    {
+        _consumer = await StartRabbitAndCreateConsumer(cancellationToken);
+
+        if (_consumer == null)
+        {
+            _logger.LogError("Error while starting RabbitMQ, consumer is null");
+            return;
+        }
+
+        _consumer.Received += ConsumerOnReceived;
+    }
+
+    private async Task<EventingBasicConsumer> StartRabbitAndCreateConsumer(CancellationToken cancellationToken)
+    {
         var factory = new ConnectionFactory {
-            Uri = new Uri(configuration["RabbitMq:ConnectionString"]!)
+            Uri = new Uri(_configuration["RabbitMq:ConnectionString"]!)
         };
 
-        while (!hostApplicationLifetime.ApplicationStopping.IsCancellationRequested)
+        var connected = false;
+
+        while (!connected)
         {
             try
             {
-                _connection = factory.CreateConnection();
-                break;
+                var connection = factory.CreateConnection();
+
+                _logger.LogInformation("Connected to RabbitMQ");
+
+                var channel = connection!.CreateModel();
+
+                channel.QueueDeclare(
+                    queue: _queueName,
+                    durable: false,
+                    exclusive: false,
+                    autoDelete: false
+                );
+
+                _logger.LogInformation("Connected to RabbitMQ and queue {QueueName} declared", _queueName);
+
+
+                var consumer = new EventingBasicConsumer(channel);
+                channel.BasicConsume(
+                    queue: _queueName,
+                    autoAck: true,
+                    consumer: consumer);
+
+                connected = true;
+
+                return consumer;
             }
-            catch (BrokerUnreachableException)
+            catch (Exception e)
             {
-                // Ignore
+                _logger.LogError("Error while connecting to RabbitMQ, will try again in 2 sec exception: {Exception}",
+                    e.Message);
+                await Task.Delay(2000, cancellationToken);
             }
         }
 
-        _queueName = configuration.GetSection("RabbitMq:QueueName").Value ?? "orders";
-
-        hostApplicationLifetime.ApplicationStopping.ThrowIfCancellationRequested();
-
-        _channel = _connection!.CreateModel();
-
-        _channel.QueueDeclare(
-            queue: _queueName,
-            durable: false,
-            exclusive: false,
-            autoDelete: false
-        );
-        
-        _logger.LogInformation("Connected to RabbitMQ and queue {QueueName} declared", _queueName);
-    }
-
-    protected override Task ExecuteAsync(CancellationToken stoppingToken)
-    {
-        var consumer = new EventingBasicConsumer(_channel);
-        consumer.Received += (_, e) => ProcessMessage(e);
-
-        _channel.BasicConsume(
-            queue: _queueName,
-            autoAck: true,
-            consumer: consumer);
-
-        return Task.Delay(Timeout.Infinite, stoppingToken);
+        return null!;
     }
 
     private void ProcessMessage(BasicDeliverEventArgs e)
     {
+        // Extract parent activity id from message headers, for distributed tracing
         string? parentActivityId = null;
         if (e.BasicProperties?.Headers?.TryGetValue("traceparent", out var parentActivityIdRaw) == true &&
             parentActivityIdRaw is byte[] traceParentBytes)
@@ -87,22 +111,19 @@ public class MessagesProcessingService : BackgroundService
         using var activity = TraceActivitySource.StartActivity(nameof(ProcessMessage), kind: ActivityKind.Consumer,
             parentId: parentActivityId);
 
-        var body = e.Body.ToArray();
-        var message = Encoding.UTF8.GetString(body);
-
-        _logger.LogInformation("Received message: {Message}", message);
-
-
         try
         {
+            var body = e.Body.ToArray();
+            var message = Encoding.UTF8.GetString(body);
+
+            _logger.LogInformation("Received message: {Message}", message);
+
             var order = JsonSerializer.Deserialize<PlaceOrderModel>(message);
 
             if (order != null)
                 _orderService.PlaceOrder(order, CancellationToken.None).ConfigureAwait(false).GetAwaiter().GetResult();
             else
-            {
                 _logger.LogError("Received message is null");
-            }
         }
         catch (Exception exception)
         {
@@ -110,19 +131,16 @@ public class MessagesProcessingService : BackgroundService
         }
     }
 
-    public override async Task StopAsync(CancellationToken stoppingToken)
+    public async Task StopAsync(CancellationToken stoppingToken)
     {
-        await base.StopAsync(stoppingToken);
+        if (_consumer != null)
+            _consumer.Received -= ConsumerOnReceived;
 
-        _channel.Close();
-        _connection.Close();
+        await Task.CompletedTask;
     }
 
-    public override void Dispose()
+    private void ConsumerOnReceived(object? sender, BasicDeliverEventArgs e)
     {
-        base.Dispose();
-
-        _channel.Dispose();
-        _connection.Dispose();
+        ProcessMessage(e);
     }
 }

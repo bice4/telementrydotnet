@@ -2,6 +2,7 @@
 using MongoDB.Bson;
 using OrderManagement.Domain.Repositories;
 using OrderManagementApi.Translators;
+using TelemtryNetProject.Contracts.Order.Api.v1.Models;
 
 namespace OrderManagementApi.Controllers;
 
@@ -18,10 +19,18 @@ public class OrderController : ControllerBase
         _logger = logger;
     }
 
+    /// <summary>
+    /// Get all orders
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns>Collection of all orders</returns>
     [HttpGet(Name = "GetAll")]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(IEnumerable<OrderDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
     {
-        _logger.LogDebug("GetAll called");
+        _logger.LogDebug("Get all orders");
 
         try
         {
@@ -35,21 +44,28 @@ public class OrderController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Get order by id
+    /// </summary>
+    /// <param name="id">Id of specific order</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>Order with provided id</returns>
     [HttpGet("{id}", Name = "GetById")]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(OrderDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetById(string id, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("GetById called with id: {Id}", id);
+        _logger.LogInformation("Get order by id: {Id}", id);
 
         try
         {
             var order = await _orderRepository.GetOrderAsync(ObjectId.Parse(id), cancellationToken);
 
-            if (order == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(order.ToOrderDto());
+            return order == null
+                ? NotFound()
+                : Ok(order.ToOrderDto());
         }
         catch (Exception e)
         {
