@@ -2,7 +2,7 @@
 using MongoDB.Bson;
 using OrderManagement.Domain.Repositories;
 using OrderManagementApi.Translators;
-using TelemtryNetProject.Contracts.Order.Api.v1.Models;
+using TelemetryDotNet.Contracts.Order.Api.v1.Models;
 
 namespace OrderManagementApi.Controllers;
 

@@ -1,5 +1,5 @@
-﻿using TelemtryNetProject.Contracts.UserManagement.Api.V1.Requests;
-using TelemtryNetProject.Contracts.ValidationService.Api.v1.Models;
+﻿using TelemetryDotNet.Contracts.UserManagement.Api.V1.Requests;
+using TelemetryDotNet.Contracts.ValidationService.Api.v1.Models;
 using ValidationService.ExternalServices;
 
 namespace ValidationService.Validation;

@@ -1,5 +1,5 @@
-﻿using TelemtryNetProject.Contracts.UserManagement.Api.V1.Models;
-using TelemtryNetProject.Contracts.UserManagement.Api.V1.Requests;
+﻿using TelemetryDotNet.Contracts.UserManagement.Api.V1.Models;
+using TelemetryDotNet.Contracts.UserManagement.Api.V1.Requests;
 using UserManagement.Domain.UserModels;
 
 namespace UserManagement.Translators;

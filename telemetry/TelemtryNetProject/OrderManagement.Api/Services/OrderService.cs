@@ -3,8 +3,7 @@ using OrderManagement.Domain.Repositories;
 using OrderManagementApi.ExternalServices;
 using OrderManagementApi.Metrics;
 using OrderManagementApi.Translators;
-using TelemtryNetProject.Contracts.Order.RabbitMq.v1.Requests;
-using TelemtryNetProject.Contracts.UserManagement.Api.V1.Responses;
+using TelemetryDotNet.Contracts.Order.RabbitMq.v1.Requests;
 
 namespace OrderManagementApi.Services;
 
@@ -58,7 +57,13 @@ public class OrderService
                 // Update metrics for order
                 // Add order count +1
                 _metrics.AddOrder();
-
+                
+                // Add order price = sum of all order items price
+                _metrics.RecordOrderTotalPrice(order.TotalPrice);
+                
+                // Add order quantity = sum of all order items quantity
+                _metrics.RecordOrderTotalQuantity(order.TotalQuantity);
+                
                 // Add order items count = sum of all order items quantity
                 _metrics.AddOrderItems(order.Items.Sum(x => x.Quantity));
             }

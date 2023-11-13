@@ -13,6 +13,10 @@ public class Order
 
     public List<OrderItem> Items { get; private set; }
 
+    public double TotalPrice => Items.Sum(x => x.Price * x.Quantity);
+    public int TotalQuantity => Items.Sum(x => x.Quantity);
+
+
     public Order(string userId, List<OrderItem> items)
     {
         Id = ObjectId.GenerateNewId();
@@ -27,19 +31,19 @@ public class Order
         UserId = userId;
         UpdatedAt = DateTimeOffset.UtcNow;
     }
-    
+
     public void SetItems(List<OrderItem> items)
     {
         Items = items;
         UpdatedAt = DateTimeOffset.UtcNow;
     }
-    
+
     public void AddItem(OrderItem item)
     {
         Items.Add(item);
         UpdatedAt = DateTimeOffset.UtcNow;
     }
-    
+
     public void RemoveItem(string referenceId)
     {
         Items.RemoveAll(x => x.ReferenceId == referenceId);

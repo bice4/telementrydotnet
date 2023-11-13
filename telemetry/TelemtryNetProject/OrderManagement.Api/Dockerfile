@@ -6,7 +6,7 @@ FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["OrderManagement.Api/OrderManagement.Api.csproj", "OrderManagement.Api/"]
 COPY ["OrderManagement.Domain/OrderManagement.Domain.csproj", "OrderManagement.Domain/"]
-COPY ["TelemtryNetProject.Contracts/TelemtryNetProject.Contracts.csproj", "TelemtryNetProject.Contracts/"]
+COPY ["TelemetryDotNet.Contracts/TelemetryDotNet.Contracts.csproj", "TelemetryDotNet.Contracts/"]
 COPY ["OrderManagement.Infrastructure/OrderManagement.Infrastructure.csproj", "OrderManagement.Infrastructure/"]
 RUN dotnet restore "OrderManagement.Api/OrderManagement.Api.csproj"
 COPY . .

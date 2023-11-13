@@ -5,7 +5,7 @@ using OrderManagementApi.Services;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using RabbitMQ.Client.Exceptions;
-using TelemtryNetProject.Contracts.Order.RabbitMq.v1.Requests;
+using TelemetryDotNet.Contracts.Order.RabbitMq.v1.Requests;
 
 namespace OrderManagementApi.Workers;
 

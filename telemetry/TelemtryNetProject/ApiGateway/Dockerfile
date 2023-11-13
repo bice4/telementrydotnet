@@ -5,7 +5,7 @@ EXPOSE 8090
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["ApiGateway/ApiGateway.csproj", "ApiGateway/"]
-COPY ["TelemtryNetProject.Contracts/TelemtryNetProject.Contracts.csproj", "TelemtryNetProject.Contracts/"]
+COPY ["TelemetryDotNet.Contracts/TelemetryDotNet.Contracts.csproj", "TelemetryDotNet.Contracts/"]
 RUN dotnet restore "ApiGateway/ApiGateway.csproj"
 COPY . .
 WORKDIR "/src/ApiGateway"

@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using TelemtryNetProject.Contracts.Order.Api.v1.Models;
+using TelemetryDotNet.Contracts.Order.Api.v1.Models;
 
 namespace ApiGateway.ExternalServices;
 

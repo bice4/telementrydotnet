@@ -1,11 +1,14 @@
-﻿using TelemtryNetProject.Contracts.Order.Api.v1.Request;
-using TelemtryNetProject.Contracts.ValidationService.Api.v1.Models;
+﻿using TelemetryDotNet.Contracts.Order.Api.v1.Request;
+using TelemetryDotNet.Contracts.ValidationService.Api.v1.Models;
 
 namespace ValidationService.Validation;
 
 public class OrderValidator : IValidator<CreateOrderRequest>
 {
     private static readonly string[] UnsupportedOrderNames = { "Russia", "North Korea", "China", "Putin" };
+
+    private const int MAX_ORDER_QUANTITY_SUM = 400;
+    private const double MAX_ORDER_PRICE = 10000;
 
     /// <summary>
     /// Validate create order request
@@ -17,7 +20,7 @@ public class OrderValidator : IValidator<CreateOrderRequest>
     {
         var results = new List<ValidationResult>();
 
-        if (!request.OrderItems.Any()) 
+        if (!request.OrderItems.Any())
             results.Add(ValidationResult.CreateValidationResult("Order items are required"));
 
         if (UnsupportedOrderNames.Any(name =>
@@ -26,11 +29,16 @@ public class OrderValidator : IValidator<CreateOrderRequest>
             results.Add(ValidationResult.CreateValidationResult("Order name is unsupported"));
         }
 
-        if (request.OrderItems.Sum(x => x.Quantity) > 400)
+        if (request.OrderItems.Sum(x => x.Quantity) > MAX_ORDER_QUANTITY_SUM)
         {
             results.Add(ValidationResult.CreateValidationResult("Order quantity sum is too big"));
         }
-        
+
+        if (request.OrderItems.Sum(x => x.Price) > MAX_ORDER_PRICE)
+        {
+            results.Add(ValidationResult.CreateValidationResult("Order price sum is too big"));
+        }
+
         return Task.FromResult(results);
     }
 }

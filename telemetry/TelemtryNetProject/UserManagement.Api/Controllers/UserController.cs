@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
-using TelemtryNetProject.Contracts.UserManagement.Api.V1.Models;
-using TelemtryNetProject.Contracts.UserManagement.Api.V1.Requests;
-using TelemtryNetProject.Contracts.UserManagement.Api.V1.Responses;
+using TelemetryDotNet.Contracts.UserManagement.Api.V1.Models;
+using TelemetryDotNet.Contracts.UserManagement.Api.V1.Requests;
+using TelemetryDotNet.Contracts.UserManagement.Api.V1.Responses;
 using UserManagement.Domain.Repositories;
 using UserManagement.Infrastructure.Services;
 using UserManagement.Metrics;
@@ -100,11 +100,11 @@ public class UserController : ControllerBase
         {
             var passwordHash = _passwordHasherService.HashPassword(request.Password);
             var user = request.ToUser(passwordHash);
-            
+
             await _userRepository.AddUserAsync(user, cancellationToken);
 
             // If user was created successfully, update metrics
-            _userMetrics.UpdateUserMetrics(1);
+            _userMetrics.UpdateUserMetrics(1, user.Address.City);
 
             return new OkObjectResult(new CreateUserResponse(user.Id.ToString()!));
         }
@@ -139,7 +139,7 @@ public class UserController : ControllerBase
             }
 
             // If user was deleted successfully, update metrics
-            _userMetrics.UpdateUserMetrics(-1);
+            _userMetrics.UpdateUserMetrics(-1, "unknown");
 
             return Ok();
         }

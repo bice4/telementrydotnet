@@ -19,5 +19,6 @@ public class UserMetrics
         UserAddedCounter = meter.CreateCounter<int>("UserAdded");
     }
 
-    public void UpdateUserMetrics(int val) => UserAddedCounter.Add(val);
+    public void UpdateUserMetrics(int val, string city) =>
+        UserAddedCounter.Add(val, new KeyValuePair<string, object?>("City", city));
 }

@@ -5,8 +5,8 @@ using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
-using TelemtryNetProject.Contracts.Order.Api.v1.Request;
-using TelemtryNetProject.Contracts.UserManagement.Api.V1.Requests;
+using TelemetryDotNet.Contracts.Order.Api.v1.Request;
+using TelemetryDotNet.Contracts.UserManagement.Api.V1.Requests;
 using ValidationService.ExternalServices;
 using ValidationService.Validation;
 

@@ -1,6 +1,5 @@
-﻿using TelemtryNetProject.Contracts.UserManagement.Api.V1.Models;
-using TelemtryNetProject.Contracts.UserManagement.Api.V1.Requests;
-using TelemtryNetProject.Contracts.UserManagement.Api.V1.Responses;
+﻿using TelemetryDotNet.Contracts.UserManagement.Api.V1.Requests;
+using TelemetryDotNet.Contracts.UserManagement.Api.V1.Responses;
 
 namespace OrderManagementApi.ExternalServices;
 

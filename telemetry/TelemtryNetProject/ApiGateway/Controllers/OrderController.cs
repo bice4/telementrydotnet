@@ -2,13 +2,13 @@ using System.Diagnostics;
 using ApiGateway.ExternalServices;
 using ApiGateway.MessageBrokers;
 using Microsoft.AspNetCore.Mvc;
-using TelemtryNetProject.Contracts.ApiGateway.Api.v1.Requests;
-using TelemtryNetProject.Contracts.ApiGateway.Api.v1.Responses;
-using TelemtryNetProject.Contracts.Order.Api.v1.Models;
-using TelemtryNetProject.Contracts.Order.RabbitMq.v1.Requests;
-using TelemtryNetProject.Contracts.UserManagement.Api.V1.Models;
-using TelemtryNetProject.Contracts.ValidationService.Api.v1.Models;
-using TelemtryNetProject.Contracts.ValidationService.Api.v1.Responses;
+using TelemetryDotNet.Contracts.ApiGateway.Api.v1.Requests;
+using TelemetryDotNet.Contracts.ApiGateway.Api.v1.Responses;
+using TelemetryDotNet.Contracts.Order.Api.v1.Models;
+using TelemetryDotNet.Contracts.Order.RabbitMq.v1.Requests;
+using TelemetryDotNet.Contracts.UserManagement.Api.V1.Models;
+using TelemetryDotNet.Contracts.ValidationService.Api.v1.Models;
+using TelemetryDotNet.Contracts.ValidationService.Api.v1.Responses;
 
 namespace ApiGateway.Controllers;
 
@@ -65,7 +65,7 @@ public class OrderController : ControllerBase
             // If any validation failed, return failed response
             if (results.Any())
             {
-                _logger.LogInformation("Placing order failed, {Reference}", reference);
+                _logger.LogWarning("Placing order failed, {Reference}", reference);
 
                 var failedResponse = new PlaceOrderFailedResponse(
                     "Validation failed", results.Any(x => x.ValidationType == ValidationType.Exception));

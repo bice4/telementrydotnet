@@ -22,7 +22,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\TelemtryNetProject.Contracts\TelemtryNetProject.Contracts.csproj"/>
+        <ProjectReference Include="..\TelemetryDotNet.Contracts\TelemetryDotNet.Contracts.csproj" />
     </ItemGroup>
 
     <ItemGroup>

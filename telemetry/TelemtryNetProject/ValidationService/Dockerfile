@@ -5,7 +5,7 @@ EXPOSE 8070
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["ValidationService/ValidationService.csproj", "ValidationService/"]
-COPY ["TelemtryNetProject.Contracts/TelemtryNetProject.Contracts.csproj", "TelemtryNetProject.Contracts/"]
+COPY ["TelemetryDotNet.Contracts/TelemetryDotNet.Contracts.csproj", "TelemetryDotNet.Contracts/"]
 RUN dotnet restore "ValidationService/ValidationService.csproj"
 COPY . .
 WORKDIR "/src/ValidationService"

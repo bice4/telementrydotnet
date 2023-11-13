@@ -1,7 +1,7 @@
 ﻿using OrderManagement.Domain.OrderModels;
-using TelemtryNetProject.Contracts.Order.Api.v1.Models;
-using ContractOrderItem = TelemtryNetProject.Contracts.Order.Api.v1.Models.OrderItem;
-using ContractCreateOrderRequest = TelemtryNetProject.Contracts.Order.Api.v1.Request.CreateOrderRequest;
+using TelemetryDotNet.Contracts.Order.Api.v1.Models;
+using ContractOrderItem = TelemetryDotNet.Contracts.Order.Api.v1.Models.OrderItem;
+using ContractCreateOrderRequest = TelemetryDotNet.Contracts.Order.Api.v1.Request.CreateOrderRequest;
 using OrderItem = OrderManagement.Domain.OrderModels.OrderItem;
 
 namespace OrderManagementApi.Translators;
@@ -9,7 +9,7 @@ namespace OrderManagementApi.Translators;
 public static class OrderTranslator
 {
     private static OrderItem ToOrderItem(this ContractOrderItem orderItemModel)
-        => new(orderItemModel.Id, orderItemModel.Name, orderItemModel.Quantity);
+        => new(orderItemModel.Id, orderItemModel.Name, orderItemModel.Quantity, orderItemModel.Price);
 
     public static Order ToOrder(this ContractCreateOrderRequest orderModel,
         string userId)

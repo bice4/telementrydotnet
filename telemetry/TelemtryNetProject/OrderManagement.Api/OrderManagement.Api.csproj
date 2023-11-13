@@ -26,7 +26,7 @@
     <ItemGroup>
         <ProjectReference Include="..\OrderManagement.Domain\OrderManagement.Domain.csproj"/>
         <ProjectReference Include="..\OrderManagement.Infrastructure\OrderManagement.Infrastructure.csproj"/>
-        <ProjectReference Include="..\TelemtryNetProject.Contracts\TelemtryNetProject.Contracts.csproj"/>
+        <ProjectReference Include="..\TelemetryDotNet.Contracts\TelemetryDotNet.Contracts.csproj" />
     </ItemGroup>
 
     <ItemGroup>

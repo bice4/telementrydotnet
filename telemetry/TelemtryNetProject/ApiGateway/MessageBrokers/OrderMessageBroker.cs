@@ -2,7 +2,7 @@
 using System.Text;
 using System.Text.Json;
 using RabbitMQ.Client;
-using TelemtryNetProject.Contracts.Order.RabbitMq.v1.Requests;
+using TelemetryDotNet.Contracts.Order.RabbitMq.v1.Requests;
 
 namespace ApiGateway.MessageBrokers;
 

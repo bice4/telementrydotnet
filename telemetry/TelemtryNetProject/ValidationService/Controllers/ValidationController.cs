@@ -1,9 +1,10 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
-using TelemtryNetProject.Contracts.Order.Api.v1.Request;
-using TelemtryNetProject.Contracts.UserManagement.Api.V1.Requests;
-using TelemtryNetProject.Contracts.ValidationService.Api.v1.Models;
-using TelemtryNetProject.Contracts.ValidationService.Api.v1.Responses;
+using TelemetryDotNet.Contracts.Order.Api.v1.Request;
+using TelemetryDotNet.Contracts.UserManagement.Api.V1.Requests;
+using TelemetryDotNet.Contracts.ValidationService.Api.v1.Models;
+using TelemetryDotNet.Contracts.ValidationService.Api.v1.Responses;
+using ValidationService.Extensions;
 using ValidationService.Validation;
 
 namespace ValidationService.Controllers;
@@ -47,7 +48,15 @@ public class ValidationController : ControllerBase
             _logger.LogInformation("ValidateUser finished, returning {ValidationResultResponse}",
                 JsonSerializer.Serialize(results));
 
-            return new OkObjectResult(new ValidationResultResponse() {
+            if (results.HasErrors())
+            {
+                return new JsonResult(new ValidationResultResponse(results)) 
+                {
+                    StatusCode = 400
+                };
+            }
+
+            return new OkObjectResult(new ValidationResultResponse(results) {
                 Results = results
             });
         }
@@ -55,9 +64,7 @@ public class ValidationController : ControllerBase
         {
             _logger.LogError(e, "Exception occured, Exception: {Exception}", e.Message);
             results.Add(ValidationResult.CreateExceptionResult("Exception occured", e.Message));
-            return new OkObjectResult(new ValidationResultResponse {
-                Results = results
-            });
+            return new OkObjectResult(new ValidationResultResponse(results));
         }
     }
 
@@ -79,10 +86,19 @@ public class ValidationController : ControllerBase
         try
         {
             results = await _createOrderRequestValidator.ValidateAsync(request, cancellationToken);
+          
             _logger.LogInformation("ValidateOrder finished, returning {ValidationResultResponse}",
                 JsonSerializer.Serialize(results));
+           
+            if (results.HasErrors())
+            {
+                return new JsonResult(new ValidationResultResponse(results)) 
+                {
+                    StatusCode = 400
+                };
+            }
 
-            return new OkObjectResult(new ValidationResultResponse() {
+            return new OkObjectResult(new ValidationResultResponse(results) {
                 Results = results
             });
         }
@@ -90,9 +106,7 @@ public class ValidationController : ControllerBase
         {
             _logger.LogError(e, "Exception occured, Exception: {Exception}", e.Message);
             results.Add(ValidationResult.CreateExceptionResult("Exception occured", e.Message));
-            return new OkObjectResult(new ValidationResultResponse {
-                Results = results
-            });
+            return new OkObjectResult(new ValidationResultResponse(results));
         }
     }
 }

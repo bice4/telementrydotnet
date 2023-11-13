@@ -1,4 +1,4 @@
-﻿using TelemtryNetProject.Contracts.UserManagement.Api.V1.Responses;
+﻿using TelemetryDotNet.Contracts.UserManagement.Api.V1.Responses;
 
 namespace ValidationService.ExternalServices;
 

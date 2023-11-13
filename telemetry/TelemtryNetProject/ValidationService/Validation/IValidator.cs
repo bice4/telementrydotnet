@@ -1,4 +1,4 @@
-﻿using TelemtryNetProject.Contracts.ValidationService.Api.v1.Models;
+﻿using TelemetryDotNet.Contracts.ValidationService.Api.v1.Models;
 
 namespace ValidationService.Validation;
 

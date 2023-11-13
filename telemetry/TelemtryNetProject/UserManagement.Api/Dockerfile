@@ -7,7 +7,7 @@ WORKDIR /src
 COPY ["UserManagement.Api/UserManagement.Api.csproj", "UserManagement.Api/"]
 COPY ["UserManagement.Infrastructure/UserManagement.Infrastructure.csproj", "UserManagement.Infrastructure/"]
 COPY ["UserManagement.Domain/UserManagement.Domain.csproj", "UserManagement.Domain/"]
-COPY ["TelemtryNetProject.Contracts/TelemtryNetProject.Contracts.csproj", "TelemtryNetProject.Contracts/"]
+COPY ["TelemetryDotNet.Contracts/TelemetryDotNet.Contracts.csproj", "TelemetryDotNet.Contracts/"]
 RUN dotnet restore "UserManagement.Api/UserManagement.Api.csproj"
 COPY . .
 WORKDIR "/src/UserManagement.Api"

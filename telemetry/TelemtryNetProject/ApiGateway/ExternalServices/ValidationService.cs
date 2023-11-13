@@ -1,6 +1,7 @@
-﻿using TelemtryNetProject.Contracts.Order.Api.v1.Request;
-using TelemtryNetProject.Contracts.UserManagement.Api.V1.Requests;
-using TelemtryNetProject.Contracts.ValidationService.Api.v1.Responses;
+﻿using System.Net;
+using TelemetryDotNet.Contracts.Order.Api.v1.Request;
+using TelemetryDotNet.Contracts.UserManagement.Api.V1.Requests;
+using TelemetryDotNet.Contracts.ValidationService.Api.v1.Responses;
 
 namespace ApiGateway.ExternalServices;
 
@@ -26,9 +27,14 @@ public class ValidationService
         CancellationToken cancellationToken)
     {
         var response = await _httpClient.PostAsJsonAsync("user", createUserRequest, cancellationToken);
+
+        if (response.StatusCode == HttpStatusCode.BadRequest)
+            return await response.Content.ReadFromJsonAsync<ValidationResultResponse>(
+                cancellationToken: cancellationToken);
+
         response.EnsureSuccessStatusCode();
 
-        return await response.Content.ReadFromJsonAsync<ValidationResultResponse>(cancellationToken: cancellationToken);
+        return null!;
     }
 
     /// <summary>
@@ -41,8 +47,12 @@ public class ValidationService
         CancellationToken cancellationToken)
     {
         var response = await _httpClient.PostAsJsonAsync("order", createOrderRequest, cancellationToken);
+        if (response.StatusCode == HttpStatusCode.BadRequest)
+            return await response.Content.ReadFromJsonAsync<ValidationResultResponse>(
+                cancellationToken: cancellationToken);
+
         response.EnsureSuccessStatusCode();
 
-        return await response.Content.ReadFromJsonAsync<ValidationResultResponse>(cancellationToken: cancellationToken);
+        return null!;
     }
 }
