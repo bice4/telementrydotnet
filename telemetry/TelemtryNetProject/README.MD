@@ -21,7 +21,7 @@ Links:
 
 #### 📊 Components diagram
 
-![](/imgs/service-diagram.drawio.png)
+![](imgs/service-diagram.drawio.png)
 
 Services for OpenTelemetry:
 1) Prometheus - storage for metrics
@@ -42,7 +42,7 @@ Flow:
 * Run ``up.bat``
 * As soon as `docker-compose` starts open ``html/index.html``
 
-![](/imgs/index.png)
+![](imgs/index.png)
 
 
 ### :chart_with_upwards_trend: Grafana
