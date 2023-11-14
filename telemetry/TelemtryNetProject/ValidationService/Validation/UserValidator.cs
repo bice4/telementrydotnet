@@ -6,14 +6,16 @@ namespace ValidationService.Validation;
 
 public class UserValidator : IValidator<CreateUserRequest>
 {
-    private readonly UserService _userService;
+    private readonly UserServiceHttpClient _userServiceHttpClient;
 
-    private static readonly string[] UnsupportedCountries = { "Russia", "North Korea", "China" };
-    private static readonly string[] UnsupportedEmailDomains = { "rambler", "mail", "yandex" };
+    private static readonly string[] UnsupportedCountries = { "Russia", "Russian Federation", "North Korea", "China" };
 
-    public UserValidator(UserService userService)
+    private static readonly string[] UnsupportedEmailDomains =
+        { "rambler.ru", "rambler.com", "mail.ru", "yandex.ru", "yandex.com" };
+
+    public UserValidator(UserServiceHttpClient userServiceHttpClient)
     {
-        _userService = userService;
+        _userServiceHttpClient = userServiceHttpClient;
     }
 
     /// <summary>
@@ -30,7 +32,7 @@ public class UserValidator : IValidator<CreateUserRequest>
         try
         {
             // Call external service (User service) to check if email exists
-            var isEmailExists = await _userService.IsEmailExistsAsync(request.Email, cancellationToken);
+            var isEmailExists = await _userServiceHttpClient.IsEmailExistsAsync(request.Email, cancellationToken);
             if (isEmailExists == null)
             {
                 results.Add(ValidationResult.CreateValidationResult("Email is not valid"));
@@ -44,9 +46,10 @@ public class UserValidator : IValidator<CreateUserRequest>
         {
             // If external service is not available, return exception result
             // This is just an example, in real world you should handle this case
-            results.Add(ValidationResult.CreateExceptionResult("An error occurred while calling UserService", e.Message));
+            results.Add(
+                ValidationResult.CreateExceptionResult("An error occurred while calling UserService", e.Message));
         }
-        
+
         if (UnsupportedCountries.Contains(request.Country))
         {
             results.Add(ValidationResult.CreateValidationResult("Country is unsupported"));
@@ -58,12 +61,12 @@ public class UserValidator : IValidator<CreateUserRequest>
             results.Add(
                 ValidationResult.CreateValidationResult("You are not allowed to register. Please kill yourself"));
         }
-        
-        if (UnsupportedEmailDomains.Any(domain => request.Email.Contains(domain)))
+
+        if (UnsupportedEmailDomains.Any(domain => request.Email.EndsWith(domain)))
         {
             results.Add(ValidationResult.CreateValidationResult("Email domain is unsupported"));
         }
-        
+
         return results;
     }
 }

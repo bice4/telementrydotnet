@@ -45,19 +45,19 @@ builder.Services.AddHttpLogging(o => o.LoggingFields = HttpLoggingFields.All);
 builder.Services.AddHealthChecks();
 builder.Services.AddSingleton<OrderMessageBroker>();
 
-builder.Services.AddHttpClient<ValidationService>(c =>
+builder.Services.AddHttpClient<ValidationServiceHttpClient>(c =>
 {
     var url = builder.Configuration["ValidationServiceUrl"];
     c.BaseAddress = new Uri(url!);
 });
 
-builder.Services.AddHttpClient<UserService>(c =>
+builder.Services.AddHttpClient<UserServiceHttpClient>(c =>
 {
     var url = builder.Configuration["UserServiceUrl"];
     c.BaseAddress = new Uri(url!);
 });
 
-builder.Services.AddHttpClient<OrderService>(c =>
+builder.Services.AddHttpClient<OrderServiceHttpClient>(c =>
 {
     var url = builder.Configuration["OrderServiceUrl"];
     c.BaseAddress = new Uri(url!);

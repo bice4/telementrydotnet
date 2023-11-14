@@ -22,4 +22,7 @@ public class ValidationResult
             ValidationType = ValidationType.Exception
         };
     }
+
+    public override string ToString() 
+        => $"{nameof(ErrorMessage)}: {ErrorMessage}, {nameof(ValidationType)}: {ValidationType:G}, {nameof(Exception)}: {Exception}";
 }

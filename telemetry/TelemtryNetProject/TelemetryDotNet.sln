@@ -37,6 +37,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Configs\customMetrics-dashboard.json = Configs\customMetrics-dashboard.json
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simulator", "Simulator\Simulator.csproj", "{C64B9428-A78F-42DE-AC9C-95BBF9AFB8CB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +81,10 @@ Global
 		{6F665140-BCF3-4DB4-9DB4-BAE435DCE3D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F665140-BCF3-4DB4-9DB4-BAE435DCE3D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F665140-BCF3-4DB4-9DB4-BAE435DCE3D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C64B9428-A78F-42DE-AC9C-95BBF9AFB8CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C64B9428-A78F-42DE-AC9C-95BBF9AFB8CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C64B9428-A78F-42DE-AC9C-95BBF9AFB8CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C64B9428-A78F-42DE-AC9C-95BBF9AFB8CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F24F609C-326E-4F03-A037-1438BF887320} = {AB44A9E1-1790-4B04-9C3C-E1000291987F}

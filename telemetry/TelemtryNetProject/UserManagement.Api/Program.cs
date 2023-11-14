@@ -55,7 +55,10 @@ builder.Services.AddOpenTelemetry()
     .ConfigureResource(b => { b.AddService(builder.Configuration["ServiceName"]!); })
     .WithTracing(b => b
         .AddAspNetCoreInstrumentation(o => { o.Filter = ctx => ctx.Request.Path != "/metrics"; })
-        .AddHttpClientInstrumentation()
+        .AddHttpClientInstrumentation(x =>
+        {
+            x.RecordException = true;
+        })
         .AddOtlpExporter())
     .WithMetrics(b => b
         .AddAspNetCoreInstrumentation(o => { o.Filter = (_, ctx) => ctx.Request.Path != "/metrics"; })

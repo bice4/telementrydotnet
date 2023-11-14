@@ -8,11 +8,11 @@ namespace ApiGateway.ExternalServices;
 /// <summary>
 /// External service for validation
 /// </summary>
-public class ValidationService
+public class ValidationServiceHttpClient
 {
     private readonly HttpClient _httpClient;
 
-    public ValidationService(HttpClient httpClient)
+    public ValidationServiceHttpClient(HttpClient httpClient)
     {
         _httpClient = httpClient;
     }
@@ -28,6 +28,7 @@ public class ValidationService
     {
         var response = await _httpClient.PostAsJsonAsync("user", createUserRequest, cancellationToken);
 
+        // If validation fails with status code 400, return the response from the validation service
         if (response.StatusCode == HttpStatusCode.BadRequest)
             return await response.Content.ReadFromJsonAsync<ValidationResultResponse>(
                 cancellationToken: cancellationToken);
@@ -47,6 +48,8 @@ public class ValidationService
         CancellationToken cancellationToken)
     {
         var response = await _httpClient.PostAsJsonAsync("order", createOrderRequest, cancellationToken);
+        
+        // If validation fails with status code 400, return the response from the validation service
         if (response.StatusCode == HttpStatusCode.BadRequest)
             return await response.Content.ReadFromJsonAsync<ValidationResultResponse>(
                 cancellationToken: cancellationToken);

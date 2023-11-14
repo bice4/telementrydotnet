@@ -36,7 +36,7 @@ public class OrderController : ControllerBase
         {
             var orders = await _orderRepository.GetOrdersAsync(cancellationToken);
 
-            return Ok(orders.Select(x => x.ToOrderDto()));
+            return new OkObjectResult(orders.Select(x => x.ToOrderDto()));
         }
         catch (Exception e)
         {
@@ -65,7 +65,7 @@ public class OrderController : ControllerBase
 
             return order == null
                 ? NotFound()
-                : Ok(order.ToOrderDto());
+                : new OkObjectResult(order.ToOrderDto());
         }
         catch (Exception e)
         {

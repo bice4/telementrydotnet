@@ -1,8 +1,10 @@
+using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using TelemetryDotNet.Contracts.UserManagement.Api.V1.Models;
 using TelemetryDotNet.Contracts.UserManagement.Api.V1.Requests;
 using TelemetryDotNet.Contracts.UserManagement.Api.V1.Responses;
+using TelemetryDotNet.Contracts.ValidationService.Api.v1.Responses;
 using UserManagement.Domain.Repositories;
 using UserManagement.Infrastructure.Services;
 using UserManagement.Metrics;
@@ -104,7 +106,7 @@ public class UserController : ControllerBase
             await _userRepository.AddUserAsync(user, cancellationToken);
 
             // If user was created successfully, update metrics
-            _userMetrics.UpdateUserMetrics(1, user.Address.City);
+            _userMetrics.IncUserCounters(user.Address.Country, user.Age);
 
             return new OkObjectResult(new CreateUserResponse(user.Id.ToString()!));
         }
@@ -113,7 +115,7 @@ public class UserController : ControllerBase
             return LogExceptionAndReturnError(e);
         }
     }
-
+    
     /// <summary>
     /// Delete user by id
     /// </summary>
@@ -139,7 +141,7 @@ public class UserController : ControllerBase
             }
 
             // If user was deleted successfully, update metrics
-            _userMetrics.UpdateUserMetrics(-1, "unknown");
+            _userMetrics.DecUserTotalCounter();
 
             return Ok();
         }

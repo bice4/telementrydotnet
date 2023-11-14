@@ -54,7 +54,7 @@ builder.Services.AddHttpLogging(o => o.LoggingFields = HttpLoggingFields.All);
 builder.Services.AddHealthChecks();
 
 
-builder.Services.AddHttpClient<UserService>(c =>
+builder.Services.AddHttpClient<UserServiceHttpClient>(c =>
 {
     var url = builder.Configuration["UserServiceUrl"];
     c.BaseAddress = new Uri(url!);

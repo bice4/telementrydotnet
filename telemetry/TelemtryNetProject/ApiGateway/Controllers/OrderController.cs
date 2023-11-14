@@ -17,20 +17,20 @@ namespace ApiGateway.Controllers;
 public class OrderController : ControllerBase
 {
     private readonly ILogger<OrderController> _logger;
-    private readonly ValidationService _validationService;
+    private readonly ValidationServiceHttpClient _validationServiceHttpClient;
     private readonly OrderMessageBroker _orderMessageBroker;
 
-    private readonly OrderService _orderService;
-    private readonly UserService _userService;
+    private readonly OrderServiceHttpClient _orderServiceHttpClient;
+    private readonly UserServiceHttpClient _userServiceHttpClient;
 
-    public OrderController(ILogger<OrderController> logger, ValidationService validationService,
-        OrderMessageBroker orderMessageBroker, OrderService orderService, UserService userService)
+    public OrderController(ILogger<OrderController> logger, ValidationServiceHttpClient validationServiceHttpClient,
+        OrderMessageBroker orderMessageBroker, OrderServiceHttpClient orderServiceHttpClient, UserServiceHttpClient userServiceHttpClient)
     {
         _logger = logger;
-        _validationService = validationService;
+        _validationServiceHttpClient = validationServiceHttpClient;
         _orderMessageBroker = orderMessageBroker;
-        _orderService = orderService;
-        _userService = userService;
+        _orderServiceHttpClient = orderServiceHttpClient;
+        _userServiceHttpClient = userServiceHttpClient;
     }
 
     /// <summary>
@@ -54,8 +54,8 @@ public class OrderController : ControllerBase
             // Validate user and order data before placing order in parallel
             var tasks = new Task<ValidationResultResponse?>[2];
 
-            tasks[0] = _validationService.IsUserValid(placeOrderRequest.UserRequest, cancellationToken);
-            tasks[1] = _validationService.IsOrderValid(placeOrderRequest.OrderRequest, cancellationToken);
+            tasks[0] = _validationServiceHttpClient.IsUserValid(placeOrderRequest.UserRequest, cancellationToken);
+            tasks[1] = _validationServiceHttpClient.IsOrderValid(placeOrderRequest.OrderRequest, cancellationToken);
 
             var validationResultResponses = await Task.WhenAll(tasks);
 
@@ -112,7 +112,7 @@ public class OrderController : ControllerBase
 
         try
         {
-            order = await _orderService.GetOrderByIdAsync(id, cancellationToken);
+            order = await _orderServiceHttpClient.GetOrderByIdAsync(id, cancellationToken);
 
             if (order == null)
             {
@@ -129,7 +129,7 @@ public class OrderController : ControllerBase
         UserFullDto? user;
         try
         {
-            user = await _userService.GetUserByIdAsync(order.UserId, cancellationToken);
+            user = await _userServiceHttpClient.GetUserByIdAsync(order.UserId, cancellationToken);
             
             if (user == null)
             {

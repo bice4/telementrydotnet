@@ -2,15 +2,24 @@
 
 namespace ValidationService.ExternalServices;
 
-public class UserService
+/// <summary>
+/// External service to communicate with the UserManagement API
+/// </summary>
+public class UserServiceHttpClient
 {
     private readonly HttpClient _httpClient;
 
-    public UserService(HttpClient httpClient)
+    public UserServiceHttpClient(HttpClient httpClient)
     {
         _httpClient = httpClient;
     }
 
+    /// <summary>
+    /// IS user email exists
+    /// </summary>
+    /// <param name="email"><see cref="string"/>User email</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>If email exists</returns>
     public async Task<bool?> IsEmailExistsAsync(string email, CancellationToken cancellationToken)
     {
         var response = await _httpClient.GetAsync($"users/{email}", cancellationToken);

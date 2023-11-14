@@ -69,15 +69,20 @@ Grafana has 3 dashboards:
 
 * Logs dashboard, you can observe all logs from all of your services
 ![](imgs/g-logs-d.png)
+![](imgs/g-logs-d2.png)
 
 * .NET ASP Core metrics dashboard
 ![](imgs/g-.net-d.png)
 
 * Custom metrics dashboard:
-  1) Show total calls for specific service
-  2) Show custom metric ``total orders``
-  3) Show custom metric ``total users``
-  4) Show custom metric ``total order item quantity``
+  1) Show pie chart ``users per country``
+  2) Show pie chart ``users per age``
+  3) Show custom metric ``total orders``
+  4) Show custom metric ``total users``
+  5) Show custom metric ``total order item quantity``
+  6) Show order item quantity distribution
+  7) Show order price distribution
+  8) Show totat price graph
 
 ![](imgs/g-cm-d.png)
 
@@ -89,6 +94,17 @@ Grafana has 3 dashboards:
 
 ![](imgs/j-trace.png)
 ![](imgs/j-trace2.png)
+![](imgs/j-trace3.png)
+![](imgs/j-trace4.png)
+
+### :chart_with_downwards_trend: Prometheus
+
+* Active targets
+![](imgs/p-2.png)
+
+* Quries
+![](imgs/p-1.png)
+![](imgs/p-3.png)
 
 ## Conclusion
 
