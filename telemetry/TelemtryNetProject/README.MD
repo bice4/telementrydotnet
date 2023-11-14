@@ -102,7 +102,7 @@ Grafana has 3 dashboards:
 * Active targets
 ![](imgs/p-2.png)
 
-* Quries
+* Queries
 ![](imgs/p-1.png)
 ![](imgs/p-3.png)
 
