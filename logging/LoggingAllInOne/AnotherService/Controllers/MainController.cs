@@ -19,18 +19,18 @@ public class MainController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post(MainRequest mainRequest)
+    public async Task<IActionResult> Post(MainRequest mainRequest, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Received request {@MainRequest}", mainRequest);
         
         if (_random.Next(0, 2) == 0)
         {
-            await Task.Delay(1000);
+            await Task.Delay(1000, cancellationToken);
             _logger.LogInformation("Returning 400");
             return StatusCode(400);
         }
 
-        await Task.Delay(500);
+        await Task.Delay(500, cancellationToken);
 
         var serviceName = _configuration.GetValue<string>("SERVICE_NAME", "Unknown");
 
