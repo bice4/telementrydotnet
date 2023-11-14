@@ -1,5 +1,8 @@
 ﻿namespace AnotherService.Workers;
 
+/// <summary>
+/// Simple counter worker that logs every configured interval
+/// </summary>
 public class TimerWorker : BackgroundService
 {
     private const int DEFAULT_TIMER_INTERVAL_MS = 1000;

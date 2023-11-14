@@ -15,8 +15,6 @@
       dockerfile: ApiGateway/Dockerfile
     ports:
       - "8040:8040"
-    volumes:
-      - ../Logs:/app/Logs
     networks:
       - backend
     environment:
@@ -31,8 +29,6 @@
       dockerfile: AnotherService/Dockerfile
     ports:
       - "8041:8041"
-    volumes:
-      - ../Logs:/app/Logs
     networks:
       - backend
     environment:
@@ -49,8 +45,6 @@
       dockerfile: AnotherService/Dockerfile
     ports:
       - "8042:8041"
-    volumes:
-      - ../Logs:/app/Logs
     networks:
       - backend
     environment:
@@ -66,8 +60,6 @@
       dockerfile: AnotherService/Dockerfile
     ports:
       - "8043:8041"
-    volumes:
-      - ../Logs:/app/Logs
     depends_on:
       - api
     networks:
