@@ -1,5 +1,30 @@
 ﻿services:
   
+  loki:
+    image: grafana/loki:2.9.1
+    command: -config.file=/mnt/config/loki-config.yml
+    volumes:
+      - ./Configs/loki.yml:/mnt/config/loki-config.yml
+    ports:
+      - "127.0.0.1:3100:3100"
+    networks:
+      - backend
+
+  grafana:
+    image: grafana/grafana:10.1.4
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_DISABLE_LOGIN_FORM=true
+    volumes:
+      - ./Configs/grafana.ini:/etc/grafana/grafana.ini
+      - ./Configs/logs-dashboard.json:/etc/grafana/provisioning/dashboards/logs-dashboard.json
+      - ./Configs/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yaml
+    ports:
+      - "127.0.0.1:3000:3000"
+    networks:
+      - backend
+  
   api:
     image: apigateway
     build:

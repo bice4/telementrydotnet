@@ -1,0 +1,9 @@
+.img-logo{
+    width: 100px;
+    height: 170px;
+    margin: 0 auto;
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    object-fit: scale-down;
+}

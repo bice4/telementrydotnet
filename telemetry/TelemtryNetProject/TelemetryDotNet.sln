@@ -1,0 +1,91 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserManagement.Api", "UserManagement.Api\UserManagement.Api.csproj", "{F24F609C-326E-4F03-A037-1438BF887320}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserManagement.Domain", "UserManagement.Domain\UserManagement.Domain.csproj", "{65C08113-D242-4530-8A67-18656015DEAB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserManagement.Infrastructure", "UserManagement.Infrastructure\UserManagement.Infrastructure.csproj", "{B80FEEE1-6383-4192-9ADD-E617889ABC32}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelemetryDotNet.Contracts", "TelemetryDotNet.Contracts\TelemetryDotNet.Contracts.csproj", "{8E416453-CA4C-4698-84ED-48AE2B1D58E9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UserManagement", "UserManagement", "{AB44A9E1-1790-4B04-9C3C-E1000291987F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValidationService", "ValidationService\ValidationService.csproj", "{449BEA87-6D3D-482B-B2B7-F71BFB850304}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderManagement.Api", "OrderManagement.Api\OrderManagement.Api.csproj", "{44E18316-9910-43CD-B6DD-298F5E947626}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderManagement.Domain", "OrderManagement.Domain\OrderManagement.Domain.csproj", "{6C4175FB-5CDD-48F9-A61E-8CF22A4DD0E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderManagement.Infrastructure", "OrderManagement.Infrastructure\OrderManagement.Infrastructure.csproj", "{817BA66B-D53F-437A-8116-90D9F96F2B8F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OrderManagement", "OrderManagement", "{7BEDD2C6-7E90-41F1-BFED-47531933DBEB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGateway", "ApiGateway\ApiGateway.csproj", "{6F665140-BCF3-4DB4-9DB4-BAE435DCE3D4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6EDEF967-732E-41FD-AC78-DEAF3E2188D0}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+		Configs\dashboard.yml = Configs\dashboard.yml
+		Configs\datasource.yml = Configs\datasource.yml
+		Configs\dotnet-otel-dashboard.json = Configs\dotnet-otel-dashboard.json
+		Configs\grafana.ini = Configs\grafana.ini
+		Configs\jaeger-ui.json = Configs\jaeger-ui.json
+		Configs\logs-dashboard.json = Configs\logs-dashboard.json
+		Configs\loki.yml = Configs\loki.yml
+		Configs\otel-collector-config.yml = Configs\otel-collector-config.yml
+		Configs\prometheus.yml = Configs\prometheus.yml
+		Configs\customMetrics-dashboard.json = Configs\customMetrics-dashboard.json
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F24F609C-326E-4F03-A037-1438BF887320}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F24F609C-326E-4F03-A037-1438BF887320}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F24F609C-326E-4F03-A037-1438BF887320}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F24F609C-326E-4F03-A037-1438BF887320}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65C08113-D242-4530-8A67-18656015DEAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65C08113-D242-4530-8A67-18656015DEAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65C08113-D242-4530-8A67-18656015DEAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65C08113-D242-4530-8A67-18656015DEAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B80FEEE1-6383-4192-9ADD-E617889ABC32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B80FEEE1-6383-4192-9ADD-E617889ABC32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B80FEEE1-6383-4192-9ADD-E617889ABC32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B80FEEE1-6383-4192-9ADD-E617889ABC32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E416453-CA4C-4698-84ED-48AE2B1D58E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E416453-CA4C-4698-84ED-48AE2B1D58E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E416453-CA4C-4698-84ED-48AE2B1D58E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E416453-CA4C-4698-84ED-48AE2B1D58E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{449BEA87-6D3D-482B-B2B7-F71BFB850304}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{449BEA87-6D3D-482B-B2B7-F71BFB850304}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{449BEA87-6D3D-482B-B2B7-F71BFB850304}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{449BEA87-6D3D-482B-B2B7-F71BFB850304}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44E18316-9910-43CD-B6DD-298F5E947626}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44E18316-9910-43CD-B6DD-298F5E947626}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44E18316-9910-43CD-B6DD-298F5E947626}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44E18316-9910-43CD-B6DD-298F5E947626}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C4175FB-5CDD-48F9-A61E-8CF22A4DD0E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C4175FB-5CDD-48F9-A61E-8CF22A4DD0E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C4175FB-5CDD-48F9-A61E-8CF22A4DD0E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C4175FB-5CDD-48F9-A61E-8CF22A4DD0E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{817BA66B-D53F-437A-8116-90D9F96F2B8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{817BA66B-D53F-437A-8116-90D9F96F2B8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{817BA66B-D53F-437A-8116-90D9F96F2B8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{817BA66B-D53F-437A-8116-90D9F96F2B8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F665140-BCF3-4DB4-9DB4-BAE435DCE3D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F665140-BCF3-4DB4-9DB4-BAE435DCE3D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F665140-BCF3-4DB4-9DB4-BAE435DCE3D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F665140-BCF3-4DB4-9DB4-BAE435DCE3D4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F24F609C-326E-4F03-A037-1438BF887320} = {AB44A9E1-1790-4B04-9C3C-E1000291987F}
+		{65C08113-D242-4530-8A67-18656015DEAB} = {AB44A9E1-1790-4B04-9C3C-E1000291987F}
+		{B80FEEE1-6383-4192-9ADD-E617889ABC32} = {AB44A9E1-1790-4B04-9C3C-E1000291987F}
+		{44E18316-9910-43CD-B6DD-298F5E947626} = {7BEDD2C6-7E90-41F1-BFED-47531933DBEB}
+		{6C4175FB-5CDD-48F9-A61E-8CF22A4DD0E8} = {7BEDD2C6-7E90-41F1-BFED-47531933DBEB}
+		{817BA66B-D53F-437A-8116-90D9F96F2B8F} = {7BEDD2C6-7E90-41F1-BFED-47531933DBEB}
+	EndGlobalSection
+EndGlobal
