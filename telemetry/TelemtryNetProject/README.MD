@@ -1,49 +1,65 @@
-#**Telemetry .NET**
+# :bookmark_tabs:**Telemetry .NET**
 
-This is sample project to show and understand how Telemetry working in .NET with logging, tracing and metrics. We will use OpenTelemetry. 
+This project serves as a demonstrative guide to comprehend the intricacies of telemetry in .NET, focusing on logging, tracing, and metrics. The implementation will leverage OpenTelemetry, a powerful observability framework that facilitates the collection of telemetry data from your applications.
 
->OpenTelemetry, also known as OTel for short, is a vendor-neutral open source Observability framework for instrumenting, generating, collecting, and exporting telemetry data such as traces, metrics, logs. As an industry-standard, it is supported by 40+ observability vendors, integrated by many libraries, services and apps and adopted by a number of end-users.
+## What is Telemetry?
+
+Telemetry involves the automated collection and transmission of data regarding the performance, usage, and health of an application. In the context of software development, telemetry provides insights into how an application behaves in various scenarios, aiding developers in identifying issues, optimizing performance, and making informed decisions.
+
+## Why Telemetry?
+
+Telemetry plays a crucial role in understanding the runtime characteristics of applications. It provides answers to questions such as:
+
+* How is the application performing?
+* What are the critical paths and bottlenecks?
+* Are there any errors or exceptions occurring?
+* What is the user experience like?
 
 Links:
-* https://opentelemetry.io/
-* https://opentelemetry.io/docs/
+
+* <https://opentelemetry.io/>
+* <https://opentelemetry.io/docs/>
 
 .NET applications with OpenTelemetry:
-* https://opentelemetry.io/docs/instrumentation/net/getting-started/
-* https://github.com/open-telemetry/opentelemetry-dotnet
-* https://www.nuget.org/packages/OpenTelemetry/
+
+* <https://opentelemetry.io/docs/instrumentation/net/getting-started/>
+* <https://github.com/open-telemetry/opentelemetry-dotnet>
+* <https://www.nuget.org/packages/OpenTelemetry/>
 
 ## :desktop_computer: Services
+
 1) ApiGateway - main entry point
 2) Validation service - for validate entities
 3) Order service - for managing orders and store them
 4) User service - for managing users and store them
 
-#### 📊 Components diagram
+### 📊 Components diagram
 
-![](imgs/service-diagram.drawio.png)
+![Service diagram](imgs/service-diagram.drawio.png)
 
 Services for OpenTelemetry:
+
 1) Prometheus - storage for metrics
-2) Loki - log storage 
+2) Loki - log storage
 3) Jaeger - tracing UI
 4) Grafana - metric/logs UI
 5) Otel-collector - collector for logs/metrics/tracing
 6) MongoDb - database for entities
 7) RabbitMQ - for async communication
 
-Flow:
-![](imgs/flow.drawio.png)
+Open telemetry flow diagram:
+
+![Flow](imgs/flow.drawio.png)
 
 ## 🚀 How to
+
 * Ensure you have `Docker` installed and running.
 * Ensure you have `docker-compose` installed.
 * Go to scripts folder and run ``build-all.bat``
 * Run ``up.bat``
 * As soon as `docker-compose` starts open ``html/index.html``
 
-![](imgs/index.png)
-
+![All service links](imgs/index.png)
 
 ### :chart_with_upwards_trend: Grafana
 
@@ -73,3 +89,7 @@ Grafana has 3 dashboards:
 
 ![](imgs/j-trace.png)
 ![](imgs/j-trace2.png)
+
+## Conclusion
+
+By embracing OpenTelemetry in your .NET applications, you empower yourself with a comprehensive telemetry solution. This allows you to gain valuable insights into your application's behavior, facilitating informed decision-making, efficient debugging, and performance optimization. OpenTelemetry's versatility in logging, tracing, and metrics makes it an invaluable tool for any developer striving for a deeper understanding of their software's runtime characteristics.

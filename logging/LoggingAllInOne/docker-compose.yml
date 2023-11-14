@@ -3,7 +3,7 @@
   seq:
     image: datalust/seq:latest
     ports:
-      - '80:80'
+      - '8033:80'
       - '5341:5341'
     environment:
       ACCEPT_EULA: Y
@@ -11,8 +11,8 @@
   api:
     image: apigateway
     build:
-      context: ./ApiGateway .
-      dockerfile: ./AnotherService/Dockerfile
+      context: .
+      dockerfile: ApiGateway/Dockerfile
     ports:
       - "8040:8040"
     volumes:
