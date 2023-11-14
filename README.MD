@@ -4,7 +4,7 @@ This project is dedicated to implementing a robust telemetry solution in .NET, f
 
 ## Solution 1: Centralized Logging using Seq
 
-* [LoggingAllInOne](logging/LoggingAllInOne/README.md)
+* [LoggingAllInOne](blob/main/logging/LoggingAllInOne/README.MD)
 
 Overview:
 
@@ -23,7 +23,7 @@ This solution focuses on centralizing logs using Seq, a powerful log server. It 
 
 ## Solution 2: Metrics, Tracing, Logging
 
-* [TelemetryNetProject](telemetry/TelemetryNetProject/README.md)
+* [TelemetryNetProject](blob/main/telemetry/TelemetryNetProject/README.md)
 
 Overview:
 This solution provides a more holistic approach to telemetry, covering metrics, tracing, and logging. It incorporates industry-standard tools like OpenTelemetry, Prometheus, Grafana, and Jaeger to achieve comprehensive observability.
