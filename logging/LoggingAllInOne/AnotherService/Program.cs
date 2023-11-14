@@ -1,10 +1,12 @@
 using AnotherService.Workers;
 using Serilog;
-using Serilog.Sinks.Grafana.Loki;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add services to the container.
+
 builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -15,31 +17,50 @@ builder.Configuration.AddEnvironmentVariables();
 
 builder.Host.UseSerilog((hbc, lc) =>
 {
-    lc.MinimumLevel.Information();
-    lc.WriteTo.Console();
+    var serviceName = hbc.Configuration.GetValue<string>("SERVICE_NAME", "Unknown")!;
+
     lc.Enrich.WithMachineName();
     lc.Enrich.WithThreadId();
+    lc.Enrich.WithThreadName();
+    lc.Enrich.WithEnvironmentUserName();
+    lc.Enrich.WithMemoryUsage();
+    lc.Enrich.WithProperty("ServiceName", serviceName);
+    
+    lc.Enrich.FromLogContext();
+    lc.WriteTo.Console();
 
-    var serviceName = hbc.Configuration.GetValue<string>("SERVICE_NAME", "Unknown");
-    var env = hbc.Configuration.GetValue<string>("ASPNETCORE_ENVIRONMENT", "Development");
+    //
+    // var env = hbc.Configuration.GetValue<string>("ASPNETCORE_ENVIRONMENT", "Unknown");
 
-    // var logPath = Path.Combine(env == "Development" ? "C:\\Projects\\telementrydotnet\\logging\\Logs\\" : "Logs", $"{serviceName}.log");
+    #region Write to file 
 
-    // lc.WriteTo.File(logPath, rollingInterval: RollingInterval.Day);
+    //var logPath = Path.Combine(env == "Development" ? "C:\\Projects\\telementrydotnet\\logging\\Logs\\" : "Logs", $"{serviceName}.log");
 
-    lc.WriteTo.GrafanaLoki("http://host.docker.internal:3100", new LokiLabel[] {
-        new() { Key = "service", Value = serviceName! },
-        new() { Key = "environment", Value = env! },
-    }, new List<string>() { "service" }, textFormatter: new LokiJsonTextFormatter());
+    //lc.WriteTo.File(logPath, rollingInterval: RollingInterval.Day);
+
+    #endregion
+
+    #region Write to Seq
+    
+    var seqUrl = hbc.Configuration.GetValue<string>("SEQ_URL", "http://host.docker.internal:5341");
+    
+    lc.WriteTo.Seq(seqUrl!);
+    
+    #endregion
+    
 });
 
 
 var app = builder.Build();
 
-app.UseSwagger();
-app.UseSwaggerUI();
-
-app.UseSerilogRequestLogging();
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 app.MapControllers();
+app.UseSerilogRequestLogging();
+
 app.Run();
