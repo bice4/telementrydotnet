@@ -47,7 +47,7 @@ public class MainController : ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Post(MainRequest request, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Received request {@MainRequest}", request);
+        _logger.LogInformation("Received request {MainRequestId}, {ReferenceId}", request.Id, request.ReferenceId);
 
         // Create a new HttpClient with the name "AnotherService"
         using var client = _httpClientFactory.CreateClient("AnotherService");

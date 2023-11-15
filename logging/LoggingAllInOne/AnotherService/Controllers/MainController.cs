@@ -27,7 +27,7 @@ public class MainController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Post(MainRequest mainRequest, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Received request {@MainRequest}", mainRequest);
+        _logger.LogInformation("Received request {MainRequestId}, {ReferenceId}", mainRequest.Id, mainRequest.ReferenceId);
 
         // Simulate some random errors
         if (_random.Next(0, 2) == 0)
