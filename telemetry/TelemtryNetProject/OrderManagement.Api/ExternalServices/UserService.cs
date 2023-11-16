@@ -1,4 +1,5 @@
-﻿using TelemetryDotNet.Contracts.UserManagement.Api.V1.Requests;
+﻿using TelemetryDotNet.Contracts.UserManagement.Api.V1.Models;
+using TelemetryDotNet.Contracts.UserManagement.Api.V1.Requests;
 using TelemetryDotNet.Contracts.UserManagement.Api.V1.Responses;
 
 namespace OrderManagementApi.ExternalServices;
@@ -12,12 +13,12 @@ public class UserService
         _httpClient = httpClient;
     }
 
-    public async Task<CreateUserResponse?> CreateUser(CreateUserRequest createUserRequest, CancellationToken cancellationToken)
+    public async Task<UserShortDto?> CreateUser(CreateUserRequest createUserRequest, CancellationToken cancellationToken)
     {
         var response = await _httpClient.PostAsJsonAsync("create", createUserRequest, cancellationToken);
         response.EnsureSuccessStatusCode();
 
-        return await response.Content.ReadFromJsonAsync<CreateUserResponse>(cancellationToken: cancellationToken);
+        return await response.Content.ReadFromJsonAsync<UserShortDto>(cancellationToken: cancellationToken);
     }
     
     public async Task DeleteUser(string userId, CancellationToken cancellationToken)

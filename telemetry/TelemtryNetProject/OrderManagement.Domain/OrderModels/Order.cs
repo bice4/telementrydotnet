@@ -12,6 +12,8 @@ public class Order
     public string UserId { get; private set; }
 
     public List<OrderItem> Items { get; private set; }
+    
+    public string InvoiceId { get; private set; } = string.Empty;
 
     public double TotalPrice => Items.Sum(x => x.Price * x.Quantity);
     public int TotalQuantity => Items.Sum(x => x.Quantity);
@@ -26,30 +28,12 @@ public class Order
         UserId = userId;
     }
 
-    public void SetUserId(string userId)
+    public void SetInvoiceId(string invoiceId)
     {
-        UserId = userId;
+        InvoiceId = invoiceId;
         UpdatedAt = DateTimeOffset.UtcNow;
     }
-
-    public void SetItems(List<OrderItem> items)
-    {
-        Items = items;
-        UpdatedAt = DateTimeOffset.UtcNow;
-    }
-
-    public void AddItem(OrderItem item)
-    {
-        Items.Add(item);
-        UpdatedAt = DateTimeOffset.UtcNow;
-    }
-
-    public void RemoveItem(string referenceId)
-    {
-        Items.RemoveAll(x => x.ReferenceId == referenceId);
-        UpdatedAt = DateTimeOffset.UtcNow;
-    }
-
+    
     public override string ToString()
     {
         return $"Id: {Id}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}, UserId: {UserId}, Items: {Items.Count}";

@@ -11,21 +11,27 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.12"/>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
-        <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.6.0"/>
-        <PackageReference Include="OpenTelemetry.Exporter.Prometheus.AspNetCore" Version="1.6.0-rc.1"/>
-        <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.6.0"/>
-        <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.5.1-beta.1"/>
-        <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.5.1-beta.1"/>
-        <PackageReference Include="OpenTelemetry.Instrumentation.Process" Version="0.5.0-beta.3"/>
-        <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.5.1"/>
-        <PackageReference Include="RabbitMQ.Client" Version="6.5.0"/>
+        <PackageReference Include="Google.Protobuf" Version="3.25.1" />
+        <PackageReference Include="Grpc.Net.Client" Version="2.59.0" />
+        <PackageReference Include="Grpc.Tools" Version="2.59.0">
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+          <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.12" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+        <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.6.0" />
+        <PackageReference Include="OpenTelemetry.Exporter.Prometheus.AspNetCore" Version="1.6.0-rc.1" />
+        <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.6.0" />
+        <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.5.1-beta.1" />
+        <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.5.1-beta.1" />
+        <PackageReference Include="OpenTelemetry.Instrumentation.Process" Version="0.5.0-beta.3" />
+        <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.5.1" />
+        <PackageReference Include="RabbitMQ.Client" Version="6.6.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\OrderManagement.Domain\OrderManagement.Domain.csproj"/>
-        <ProjectReference Include="..\OrderManagement.Infrastructure\OrderManagement.Infrastructure.csproj"/>
+        <ProjectReference Include="..\OrderManagement.Domain\OrderManagement.Domain.csproj" />
+        <ProjectReference Include="..\OrderManagement.Infrastructure\OrderManagement.Infrastructure.csproj" />
         <ProjectReference Include="..\TelemetryDotNet.Contracts\TelemetryDotNet.Contracts.csproj" />
     </ItemGroup>
 
@@ -35,4 +41,8 @@
         </Content>
     </ItemGroup>
 
+    <ItemGroup>
+        <Protobuf Include="..\TelemetryDotNet.Contracts\InvoiceService\protobuf\v1\invoiceGenService.proto" GrpcServices="Client" />
+    </ItemGroup>
+    
 </Project>

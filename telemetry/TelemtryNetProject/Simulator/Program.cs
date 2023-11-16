@@ -30,7 +30,6 @@ builder.Services.AddHttpClient<ApiGatewayHttpClient>(c =>
     var url = builder.Configuration["ApiGatewayUrl"];
     c.BaseAddress = new Uri(url!);
 });
-
 builder.Logging.ClearProviders();
 builder.Configuration.AddEnvironmentVariables();
 

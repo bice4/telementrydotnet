@@ -1,0 +1,40 @@
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "InvoiceGeneratorService";
+
+package invoicegenerator;
+
+service OrderPlacer {
+  rpc GenerateInvoice (InvoiceRequest) returns (InvoiceResponse) {}
+}
+
+message InvoiceResponse{
+  string invoiceId = 1;
+}
+
+message InvoiceRequest{
+  string referenceId = 1;
+  Order order = 2;
+}
+
+message OrderItem{
+  string orderItemId = 1;
+  string name = 2;
+  int32 quantity = 3;
+  double price = 4;
+}
+
+message Order{
+  string orderId = 1;
+  repeated OrderItem items = 3;
+  User user = 4;
+  google.protobuf.Timestamp createdAt = 5;
+}
+
+message User{
+  string userId = 1;
+  string fullName = 2;
+  string email = 3;
+  string phone = 4;
+}

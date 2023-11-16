@@ -14,6 +14,9 @@ using OrderManagementApi.Workers;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// For grpc, we need to enable HTTP2 without TLS support
+AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
+
 builder.Logging
     .ClearProviders()
     .AddConsole()
@@ -23,13 +26,12 @@ builder.Logging
         options.IncludeScopes = true;
 
         var resBuilder = ResourceBuilder.CreateDefault();
-        var serviceName = builder.Configuration["ServiceName"]!;
+        var serviceName = builder.Configuration["ServiceName"] ?? "OrderManagement";
         resBuilder.AddService(serviceName);
         options.SetResourceBuilder(resBuilder);
 
         options.AddOtlpExporter();
     });
-
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -49,9 +51,8 @@ builder.Services.AddHttpLogging(o => o.LoggingFields = HttpLoggingFields.All);
 builder.Services.AddHealthChecks();
 builder.Services.AddTransient<IOrderRepository, OrderRepository>();
 builder.Services.AddTransient<OrderService>();
-
+builder.Services.AddScoped<OrderManagementApi.ExternalServices.InvoiceGeneratorService>();
 builder.Services.AddHostedService<MessagesProcessingService>();
-
 builder.Services.AddSingleton<OrderMetrics>();
 
 var meters = new OrderMetrics();

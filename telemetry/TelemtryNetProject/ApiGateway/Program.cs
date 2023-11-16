@@ -19,7 +19,7 @@ builder.Logging
         options.IncludeScopes = true;
 
         var resBuilder = ResourceBuilder.CreateDefault();
-        var serviceName = builder.Configuration["ServiceName"]!;
+        var serviceName = builder.Configuration["ServiceName"] ?? "ApiGateway";
         resBuilder.AddService(serviceName);
         options.SetResourceBuilder(resBuilder);
 

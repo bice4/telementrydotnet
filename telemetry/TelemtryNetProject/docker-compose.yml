@@ -156,7 +156,7 @@ services:
       - MongoDb__ConnectionString=mongodb://mongoDb:27017
       - RabbitMq__ConnectionString=amqp://admin:password@rabbitmq:5672/telemetrynet
       - UserServiceUrl=http://user-service:8060/User/
-
+      - InvoiceServiceUrl=http://invoice-service:8099
     ports:
       - "127.0.0.1:8050:8050"
     networks:
@@ -164,6 +164,26 @@ services:
     depends_on:
       - mongoDb
       - rabbitmq
-
+      - invoice-service
+  
+  
+  invoice-service:
+    build:
+      dockerfile: InvoiceGeneratorService/Dockerfile
+      context: .
+    image: invoice-service
+    environment:
+      - OTEL_EXPORTER_JAEGER_AGENT_HOST=jaeger
+      - OTEL_EXPORTER_JAEGER_AGENT_PORT=6831
+      - OTEL_EXPORTER_JAEGER_ENDPOINT=http://jaeger:14268/api/traces
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+      - ASPNETCORE_URLS=http://+:8099
+      - ServiceName=InvoiceService
+    ports:
+      - "127.0.0.1:8099:8099"
+      - "127.0.0.1:8098:8098"
+    networks:
+      - backend
+  
 networks:
   backend:

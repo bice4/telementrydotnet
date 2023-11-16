@@ -12,12 +12,15 @@ public class UserShortDto
 
     public string Gender { get; set; }
 
-    public UserShortDto(string fullName, string email, int age, string gender, string userId)
+    public string? PhoneNumber { get; set; }
+
+    public UserShortDto(string fullName, string email, int age, string gender, string userId, string? phoneNumber)
     {
         FullName = fullName;
         Email = email;
         Age = age;
         Gender = gender;
         UserId = userId;
+        PhoneNumber = phoneNumber;
     }
 }

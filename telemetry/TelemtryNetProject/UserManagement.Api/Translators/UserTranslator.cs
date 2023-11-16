@@ -7,7 +7,7 @@ namespace UserManagement.Translators;
 public static class UserTranslator
 {
     public static UserShortDto ToUserShortDto(this User user)
-        => new(user.FullName, user.Email, user.Age, user.Gender.ToString("G"), user.Id.ToString()!);
+        => new(user.FullName, user.Email, user.Age, user.Gender.ToString("G"), user.Id.ToString()!, user.PhoneNumber);
 
     public static UserFullDto ToUserFullDto(this User user)
         => new(user.FirstName, user.LastName, user.Email, user.PhoneNumber,

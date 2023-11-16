@@ -2,7 +2,6 @@
 using TelemetryDotNet.Contracts.UserManagement.Api.V1.Models;
 using TelemetryDotNet.Contracts.UserManagement.Api.V1.Requests;
 using TelemetryDotNet.Contracts.UserManagement.Api.V1.Responses;
-using TelemetryDotNet.Contracts.ValidationService.Api.v1.Responses;
 
 namespace ApiGateway.ExternalServices;
 
@@ -43,13 +42,13 @@ public class UserServiceHttpClient
     /// <param name="request"><see cref="CreateUserRequest"/>User data</param>
     /// <param name="cancellationToken"></param>
     /// <returns><see cref="CreateUserResponse"/></returns>
-    public async Task<CreateUserResponse?> CreateUserAsync(CreateUserRequest request,
+    public async Task<UserShortDto?> CreateUserAsync(CreateUserRequest request,
         CancellationToken cancellationToken)
     {
         var response = await _httpClient.PostAsJsonAsync("create", request, cancellationToken);
         response.EnsureSuccessStatusCode();
         
-        return await response.Content.ReadFromJsonAsync<CreateUserResponse>(cancellationToken: cancellationToken);
+        return await response.Content.ReadFromJsonAsync<UserShortDto>(cancellationToken: cancellationToken);
     }
 
   

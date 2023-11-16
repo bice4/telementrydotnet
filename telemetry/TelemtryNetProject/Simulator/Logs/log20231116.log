@@ -1,0 +1,237 @@
+[2023-11-16 15:56:30.215 +01:00 INF] Now listening on: http://localhost:5010
+[2023-11-16 15:56:30.241 +01:00 INF] Application started. Press Ctrl+C to shut down.
+[2023-11-16 15:56:30.242 +01:00 INF] Hosting environment: Development
+[2023-11-16 15:56:30.242 +01:00 INF] Content root path: C:\Projects\telementrydotnet\telemetry\TelemtryNetProject\Simulator
+[2023-11-16 15:56:38.222 +01:00 INF] Route matched with {action = "SimulateCreateUsers", controller = "Simulate"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SimulateCreateUsers(Simulator.Models.SimulateCreateUsersRequest, System.Threading.CancellationToken) on controller Simulator.Controllers.SimulateController (Simulator).
+[2023-11-16 15:56:38.305 +01:00 INF] Executing action method Simulator.Controllers.SimulateController.SimulateCreateUsers (Simulator) - Validation state: "Valid"
+[2023-11-16 15:56:55.626 +01:00 ERR] Error while simulating create users: Grpc.Core.RpcException: Status(StatusCode="Internal", Detail="Error starting gRPC call. HttpRequestException: An error occurred while sending the request. IOException: An HTTP/2 connection could not be established because the server did not complete the HTTP/2 handshake. HttpProtocolException: The HTTP/2 server closed the connection. HTTP/2 error code 'HTTP_1_1_REQUIRED' (0xd).", DebugException="System.Net.Http.HttpRequestException: An error occurred while sending the request.")
+ ---> System.Net.Http.HttpRequestException: An error occurred while sending the request.
+ ---> System.IO.IOException: An HTTP/2 connection could not be established because the server did not complete the HTTP/2 handshake.
+ ---> System.Net.Http.HttpProtocolException: The HTTP/2 server closed the connection. HTTP/2 error code 'HTTP_1_1_REQUIRED' (0xd).
+   at System.Net.Http.Http2Connection.ThrowProtocolError(Http2ProtocolErrorCode errorCode, String message)
+   at System.Net.Http.Http2Connection.ProcessIncomingFramesAsync()
+   --- End of inner exception stack trace ---
+   at System.Net.Http.Http2Connection.ProcessIncomingFramesAsync()
+   at System.Net.Http.Http2Connection.SendHeadersAsync(HttpRequestMessage request, CancellationToken cancellationToken, Boolean mustFlush)
+   at System.Net.Http.Http2Connection.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.Http2Connection.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.DiagnosticsHandler.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at Grpc.Net.Client.Balancer.Internal.BalancerHttpHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Grpc.Net.Client.Internal.GrpcCall`2.RunCall(HttpRequestMessage request, Nullable`1 timeout)
+   --- End of inner exception stack trace ---
+   at Grpc.Net.Client.Internal.GrpcCall`2.GetResponseHeadersCoreAsync()
+   at Simulator.Controllers.SimulateController.SimulateCreateUsers(SimulateCreateUsersRequest request, CancellationToken cancellationToken) in C:\Projects\telementrydotnet\telemetry\TelemtryNetProject\Simulator\Controllers\SimulateController.cs:line 33
+[2023-11-16 15:56:55.639 +01:00 INF] Executed action method Simulator.Controllers.SimulateController.SimulateCreateUsers (Simulator), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 17323.3084ms.
+[2023-11-16 15:56:55.656 +01:00 INF] Executing ObjectResult, writing value of type 'System.String'.
+[2023-11-16 15:56:55.663 +01:00 INF] Executed action Simulator.Controllers.SimulateController.SimulateCreateUsers (Simulator) in 17433.6744ms
+[2023-11-16 15:59:58.242 +01:00 INF] Now listening on: http://localhost:5010
+[2023-11-16 15:59:58.270 +01:00 INF] Application started. Press Ctrl+C to shut down.
+[2023-11-16 15:59:58.271 +01:00 INF] Hosting environment: Development
+[2023-11-16 15:59:58.271 +01:00 INF] Content root path: C:\Projects\telementrydotnet\telemetry\TelemtryNetProject\Simulator
+[2023-11-16 16:00:02.871 +01:00 INF] Route matched with {action = "SimulateCreateUsers", controller = "Simulate"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SimulateCreateUsers(Simulator.Models.SimulateCreateUsersRequest, System.Threading.CancellationToken) on controller Simulator.Controllers.SimulateController (Simulator).
+[2023-11-16 16:00:02.912 +01:00 INF] Executing action method Simulator.Controllers.SimulateController.SimulateCreateUsers (Simulator) - Validation state: "Valid"
+[2023-11-16 16:15:15.333 +01:00 INF] Now listening on: http://localhost:5010
+[2023-11-16 16:15:15.355 +01:00 INF] Application started. Press Ctrl+C to shut down.
+[2023-11-16 16:15:15.355 +01:00 INF] Hosting environment: Development
+[2023-11-16 16:15:15.355 +01:00 INF] Content root path: C:\Projects\telementrydotnet\telemetry\TelemtryNetProject\Simulator
+[2023-11-16 16:15:34.652 +01:00 INF] Route matched with {action = "SimulateCreateUsers", controller = "Simulate"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SimulateCreateUsers(Simulator.Models.SimulateCreateUsersRequest, System.Threading.CancellationToken) on controller Simulator.Controllers.SimulateController (Simulator).
+[2023-11-16 16:15:34.723 +01:00 INF] Executing action method Simulator.Controllers.SimulateController.SimulateCreateUsers (Simulator) - Validation state: "Valid"
+[2023-11-16 16:16:46.398 +01:00 ERR] Error while simulating create users: Grpc.Core.RpcException: Status(StatusCode="Internal", Detail="Error starting gRPC call. HttpRequestException: An HTTP/2 connection could not be established because the server did not complete the HTTP/2 handshake.", DebugException="System.Net.Http.HttpRequestException: An HTTP/2 connection could not be established because the server did not complete the HTTP/2 handshake.")
+ ---> System.Net.Http.HttpRequestException: An HTTP/2 connection could not be established because the server did not complete the HTTP/2 handshake.
+   at System.Net.Http.HttpConnectionPool.ReturnHttp2Connection(Http2Connection connection, Boolean isNewConnection, HttpConnectionWaiter`1 initialRequestWaiter)
+   at System.Net.Http.HttpConnectionPool.AddHttp2ConnectionAsync(QueueItem queueItem)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.AsyncStateMachineBox`1.ExecutionContextCallback(Object s)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.AsyncStateMachineBox`1.MoveNext(Thread threadPoolThread)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.AsyncStateMachineBox`1.MoveNext()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(IAsyncStateMachineBox box, Boolean allowInlining)
+   at System.Threading.Tasks.Task.RunContinuations(Object continuationObject)
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncValueTaskMethodBuilder`1.SetResult(TResult result)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.AsyncStateMachineBox`1.ExecutionContextCallback(Object s)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.AsyncStateMachineBox`1.MoveNext(Thread threadPoolThread)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.AsyncStateMachineBox`1.MoveNext()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(IAsyncStateMachineBox box, Boolean allowInlining)
+   at System.Threading.Tasks.Task.RunContinuations(Object continuationObject)
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetExistingTaskResult(Task`1 task, TResult result)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.AsyncStateMachineBox`1.ExecutionContextCallback(Object s)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.AsyncStateMachineBox`1.MoveNext(Thread threadPoolThread)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.AsyncStateMachineBox`1.MoveNext()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(IAsyncStateMachineBox box, Boolean allowInlining)
+   at System.Threading.Tasks.Task.RunContinuations(Object continuationObject)
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetExistingTaskResult(Task`1 task, TResult result)
+   at Grpc.Net.Client.Balancer.Internal.BalancerHttpHandler.OnConnect(SocketsHttpConnectionContext context, CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.AsyncStateMachineBox`1.ExecutionContextCallback(Object s)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.AsyncStateMachineBox`1.MoveNext(Thread threadPoolThread)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.AsyncStateMachineBox`1.MoveNext()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(IAsyncStateMachineBox box, Boolean allowInlining)
+   at System.Threading.Tasks.Task.RunContinuations(Object continuationObject)
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetExistingTaskResult(Task`1 task, TResult result)
+   at Grpc.Net.Client.Balancer.Internal.SocketConnectivitySubchannelTransport.GetStreamAsync(DnsEndPoint endPoint, CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.AsyncStateMachineBox`1.ExecutionContextCallback(Object s)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.AsyncStateMachineBox`1.MoveNext(Thread threadPoolThread)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.AsyncStateMachineBox`1.MoveNext()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(IAsyncStateMachineBox box, Boolean allowInlining)
+   at System.Threading.Tasks.Task.RunContinuations(Object continuationObject)
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetExistingTaskResult(Task`1 task, TResult result)
+   at System.Runtime.CompilerServices.AsyncValueTaskMethodBuilder.SetResult()
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|281_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.AsyncStateMachineBox`1.ExecutionContextCallback(Object s)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.AsyncStateMachineBox`1.MoveNext(Thread threadPoolThread)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.AsyncStateMachineBox`1.MoveNext()
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.InvokeContinuation(Action`1 continuation, Object state, Boolean forceAsync, Boolean requiresExecutionContextFlow)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.OnCompleted(SocketAsyncEventArgs _)
+   at System.Net.Sockets.SocketAsyncEventArgs.<DnsConnectAsync>g__Core|112_0(MultiConnectSocketAsyncEventArgs internalArgs, Task`1 addressesTask, Int32 port, SocketType socketType, ProtocolType protocolType, CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.AsyncStateMachineBox`1.ExecutionContextCallback(Object s)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.AsyncStateMachineBox`1.MoveNext(Thread threadPoolThread)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.AsyncStateMachineBox`1.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Net.Sockets.SocketAsyncEventArgs.<>c.<.cctor>b__176_0(UInt32 errorCode, UInt32 numBytes, NativeOverlapped* nativeOverlapped)
+   at System.Threading.PortableThreadPool.IOCompletionPoller.Callback.Invoke(Event e)
+   at System.Threading.ThreadPoolTypedWorkItemQueue`2.System.Threading.IThreadPoolWorkItem.Execute()
+   at System.Threading.ThreadPoolWorkQueue.Dispatch()
+   at System.Threading.PortableThreadPool.WorkerThread.WorkerThreadStart()
+--- End of stack trace from previous location ---
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.HttpConnectionWaiter`1.WaitForConnectionAsync(Boolean async, CancellationToken requestCancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.DiagnosticsHandler.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at Grpc.Net.Client.Balancer.Internal.BalancerHttpHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Grpc.Net.Client.Internal.GrpcCall`2.RunCall(HttpRequestMessage request, Nullable`1 timeout)
+   --- End of inner exception stack trace ---
+   at Grpc.Net.Client.Internal.GrpcCall`2.GetResponseHeadersCoreAsync()
+   at Simulator.Controllers.SimulateController.SimulateCreateUsers(SimulateCreateUsersRequest request, CancellationToken cancellationToken) in C:\Projects\telementrydotnet\telemetry\TelemtryNetProject\Simulator\Controllers\SimulateController.cs:line 33
+[2023-11-16 16:16:46.409 +01:00 INF] Executed action method Simulator.Controllers.SimulateController.SimulateCreateUsers (Simulator), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 71678.7042ms.
+[2023-11-16 16:16:46.414 +01:00 INF] Executing ObjectResult, writing value of type 'System.String'.
+[2023-11-16 16:16:46.417 +01:00 INF] Executed action Simulator.Controllers.SimulateController.SimulateCreateUsers (Simulator) in 71761.2691ms
+[2023-11-16 16:16:52.334 +01:00 INF] Route matched with {action = "SimulateCreateUsers", controller = "Simulate"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SimulateCreateUsers(Simulator.Models.SimulateCreateUsersRequest, System.Threading.CancellationToken) on controller Simulator.Controllers.SimulateController (Simulator).
+[2023-11-16 16:16:52.335 +01:00 INF] Executing action method Simulator.Controllers.SimulateController.SimulateCreateUsers (Simulator) - Validation state: "Valid"
+[2023-11-16 16:22:52.862 +01:00 INF] Now listening on: http://localhost:5010
+[2023-11-16 16:22:52.884 +01:00 INF] Application started. Press Ctrl+C to shut down.
+[2023-11-16 16:22:52.884 +01:00 INF] Hosting environment: Development
+[2023-11-16 16:22:52.884 +01:00 INF] Content root path: C:\Projects\telementrydotnet\telemetry\TelemtryNetProject\Simulator
+[2023-11-16 16:22:59.421 +01:00 INF] Route matched with {action = "SimulateCreateUsers", controller = "Simulate"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SimulateCreateUsers(Simulator.Models.SimulateCreateUsersRequest, System.Threading.CancellationToken) on controller Simulator.Controllers.SimulateController (Simulator).
+[2023-11-16 16:22:59.496 +01:00 INF] Executing action method Simulator.Controllers.SimulateController.SimulateCreateUsers (Simulator) - Validation state: "Valid"
+[2023-11-16 16:23:20.412 +01:00 ERR] Error while simulating create users: Grpc.Core.RpcException: Status(StatusCode="Internal", Detail="Error starting gRPC call. HttpRequestException: An error occurred while sending the request. IOException: The request was aborted. IOException: An HTTP/2 connection could not be established because the server did not complete the HTTP/2 handshake. HttpProtocolException: The HTTP/2 server closed the connection. HTTP/2 error code 'HTTP_1_1_REQUIRED' (0xd).", DebugException="System.Net.Http.HttpRequestException: An error occurred while sending the request.")
+ ---> System.Net.Http.HttpRequestException: An error occurred while sending the request.
+ ---> System.IO.IOException: The request was aborted.
+ ---> System.IO.IOException: An HTTP/2 connection could not be established because the server did not complete the HTTP/2 handshake.
+ ---> System.Net.Http.HttpProtocolException: The HTTP/2 server closed the connection. HTTP/2 error code 'HTTP_1_1_REQUIRED' (0xd).
+   at System.Net.Http.Http2Connection.ThrowProtocolError(Http2ProtocolErrorCode errorCode, String message)
+   at System.Net.Http.Http2Connection.ProcessIncomingFramesAsync()
+   --- End of inner exception stack trace ---
+   at System.Net.Http.Http2Connection.ProcessIncomingFramesAsync()
+   --- End of inner exception stack trace ---
+   at System.Net.Http.Http2Connection.ThrowRequestAborted(Exception innerException)
+   at System.Net.Http.Http2Connection.Http2Stream.SendDataAsync(ReadOnlyMemory`1 buffer, CancellationToken cancellationToken)
+   at Grpc.Net.Client.Internal.StreamExtensions.WriteMessageAsync[TMessage](Stream stream, GrpcCall call, TMessage message, Action`2 serializer, CallOptions callOptions)
+   at Grpc.Net.Client.Internal.PushUnaryContent`2.WriteMessageCore(Task writeMessageTask)
+   at System.Net.Http.Http2Connection.Http2Stream.SendRequestBodyAsync(CancellationToken cancellationToken)
+   at System.Net.Http.Http2Connection.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.Http2Connection.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.DiagnosticsHandler.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at Grpc.Net.Client.Balancer.Internal.BalancerHttpHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Grpc.Net.Client.Internal.GrpcCall`2.RunCall(HttpRequestMessage request, Nullable`1 timeout)
+   --- End of inner exception stack trace ---
+   at Grpc.Net.Client.Internal.GrpcCall`2.GetResponseHeadersCoreAsync()
+   at Simulator.Controllers.SimulateController.SimulateCreateUsers(SimulateCreateUsersRequest request, CancellationToken cancellationToken) in C:\Projects\telementrydotnet\telemetry\TelemtryNetProject\Simulator\Controllers\SimulateController.cs:line 35
+[2023-11-16 16:23:20.417 +01:00 INF] Executed action method Simulator.Controllers.SimulateController.SimulateCreateUsers (Simulator), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 20915.413ms.
+[2023-11-16 16:23:20.423 +01:00 INF] Executing ObjectResult, writing value of type 'System.String'.
+[2023-11-16 16:23:20.427 +01:00 INF] Executed action Simulator.Controllers.SimulateController.SimulateCreateUsers (Simulator) in 21001.1467ms
+[2023-11-16 16:31:58.314 +01:00 INF] Now listening on: http://localhost:5010
+[2023-11-16 16:31:58.337 +01:00 INF] Application started. Press Ctrl+C to shut down.
+[2023-11-16 16:31:58.337 +01:00 INF] Hosting environment: Development
+[2023-11-16 16:31:58.338 +01:00 INF] Content root path: C:\Projects\telementrydotnet\telemetry\TelemtryNetProject\Simulator
+[2023-11-16 16:32:04.097 +01:00 INF] Route matched with {action = "SimulateCreateUsers", controller = "Simulate"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SimulateCreateUsers(Simulator.Models.SimulateCreateUsersRequest, System.Threading.CancellationToken) on controller Simulator.Controllers.SimulateController (Simulator).
+[2023-11-16 16:32:04.138 +01:00 INF] Executing action method Simulator.Controllers.SimulateController.SimulateCreateUsers (Simulator) - Validation state: "Valid"
+[2023-11-16 16:37:30.069 +01:00 INF] Now listening on: http://localhost:5010
+[2023-11-16 16:37:30.091 +01:00 INF] Application started. Press Ctrl+C to shut down.
+[2023-11-16 16:37:30.092 +01:00 INF] Hosting environment: Development
+[2023-11-16 16:37:30.092 +01:00 INF] Content root path: C:\Projects\telementrydotnet\telemetry\TelemtryNetProject\Simulator
+[2023-11-16 16:37:34.637 +01:00 INF] Route matched with {action = "SimulateCreateUsers", controller = "Simulate"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SimulateCreateUsers(Simulator.Models.SimulateCreateUsersRequest, System.Threading.CancellationToken) on controller Simulator.Controllers.SimulateController (Simulator).
+[2023-11-16 16:37:34.678 +01:00 INF] Executing action method Simulator.Controllers.SimulateController.SimulateCreateUsers (Simulator) - Validation state: "Valid"
+[2023-11-16 16:37:47.896 +01:00 ERR] Error while simulating create users: Grpc.Core.RpcException: Status(StatusCode="Internal", Detail="Failed to deserialize response message.")
+   at Simulator.Controllers.SimulateController.SimulateCreateUsers(SimulateCreateUsersRequest request, CancellationToken cancellationToken) in C:\Projects\telementrydotnet\telemetry\TelemtryNetProject\Simulator\Controllers\SimulateController.cs:line 35
+[2023-11-16 16:37:47.902 +01:00 INF] Executed action method Simulator.Controllers.SimulateController.SimulateCreateUsers (Simulator), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 13217.9843ms.
+[2023-11-16 16:37:47.907 +01:00 INF] Executing ObjectResult, writing value of type 'System.String'.
+[2023-11-16 16:37:47.911 +01:00 INF] Executed action Simulator.Controllers.SimulateController.SimulateCreateUsers (Simulator) in 13270.2997ms
+[2023-11-16 16:48:34.009 +01:00 INF] Now listening on: http://localhost:5010
+[2023-11-16 16:48:34.033 +01:00 INF] Application started. Press Ctrl+C to shut down.
+[2023-11-16 16:48:34.033 +01:00 INF] Hosting environment: Development
+[2023-11-16 16:48:34.034 +01:00 INF] Content root path: C:\Projects\telementrydotnet\telemetry\TelemtryNetProject\Simulator
+[2023-11-16 16:48:39.218 +01:00 INF] Request:
+Protocol: HTTP/1.1
+Method: POST
+Scheme: http
+PathBase: 
+Path: /Simulate/user
+Accept: */*
+Connection: keep-alive
+Host: localhost:5010
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9,ru-RU;q=0.8,ru;q=0.7,pl;q=0.6
+Content-Type: application/json
+Cookie: [Redacted]
+Origin: [Redacted]
+Referer: [Redacted]
+Content-Length: 88
+sec-ch-ua: [Redacted]
+DNT: 1
+sec-ch-ua-mobile: [Redacted]
+sec-ch-ua-platform: [Redacted]
+Sec-Fetch-Site: [Redacted]
+Sec-Fetch-Mode: [Redacted]
+Sec-Fetch-Dest: [Redacted]
+[2023-11-16 16:48:39.235 +01:00 INF] Route matched with {action = "SimulateCreateUsers", controller = "Simulate"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SimulateCreateUsers(Simulator.Models.SimulateCreateUsersRequest, System.Threading.CancellationToken) on controller Simulator.Controllers.SimulateController (Simulator).
+[2023-11-16 16:48:39.277 +01:00 INF] Executing action method Simulator.Controllers.SimulateController.SimulateCreateUsers (Simulator) - Validation state: "Valid"
+[2023-11-16 16:49:13.349 +01:00 ERR] Error while simulating create users: Grpc.Core.RpcException: Status(StatusCode="Internal", Detail="Failed to deserialize response message.")
+   at Simulator.Controllers.SimulateController.SimulateCreateUsers(SimulateCreateUsersRequest request, CancellationToken cancellationToken) in C:\Projects\telementrydotnet\telemetry\TelemtryNetProject\Simulator\Controllers\SimulateController.cs:line 35
+[2023-11-16 16:49:13.363 +01:00 INF] Executed action method Simulator.Controllers.SimulateController.SimulateCreateUsers (Simulator), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 34080.6554ms.
+[2023-11-16 16:49:13.369 +01:00 INF] Executing ObjectResult, writing value of type 'System.String'.
+[2023-11-16 16:49:13.373 +01:00 INF] Executed action Simulator.Controllers.SimulateController.SimulateCreateUsers (Simulator) in 34134.6141ms
+[2023-11-16 16:49:13.375 +01:00 INF] Response:
+StatusCode: 500
+Content-Type: text/plain; charset=utf-8
+Date: Thu, 16 Nov 2023 15:49:13 GMT
+Server: Kestrel
+Transfer-Encoding: chunked
+[2023-11-16 16:57:11.025 +01:00 INF] Now listening on: http://localhost:5010
+[2023-11-16 16:57:11.047 +01:00 INF] Application started. Press Ctrl+C to shut down.
+[2023-11-16 16:57:11.048 +01:00 INF] Hosting environment: Development
+[2023-11-16 16:57:11.048 +01:00 INF] Content root path: C:\Projects\telementrydotnet\telemetry\TelemtryNetProject\Simulator
+[2023-11-16 16:57:15.195 +01:00 INF] Route matched with {action = "SimulateCreateUsers", controller = "Simulate"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SimulateCreateUsers(Simulator.Models.SimulateCreateUsersRequest, System.Threading.CancellationToken) on controller Simulator.Controllers.SimulateController (Simulator).
+[2023-11-16 16:57:15.235 +01:00 INF] Executing action method Simulator.Controllers.SimulateController.SimulateCreateUsers (Simulator) - Validation state: "Valid"
+[2023-11-16 16:57:33.052 +01:00 ERR] Error while simulating create users: Grpc.Core.RpcException: Status(StatusCode="Internal", Detail="Failed to deserialize response message.")
+   at Simulator.Controllers.SimulateController.SimulateCreateUsers(SimulateCreateUsersRequest request, CancellationToken cancellationToken) in C:\Projects\telementrydotnet\telemetry\TelemtryNetProject\Simulator\Controllers\SimulateController.cs:line 35
+[2023-11-16 16:57:33.056 +01:00 INF] Executed action method Simulator.Controllers.SimulateController.SimulateCreateUsers (Simulator), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 17816.161ms.
+[2023-11-16 16:57:33.061 +01:00 INF] Executing ObjectResult, writing value of type 'System.String'.
+[2023-11-16 16:57:33.064 +01:00 INF] Executed action Simulator.Controllers.SimulateController.SimulateCreateUsers (Simulator) in 17865.8162ms
+[2023-11-16 17:04:01.429 +01:00 INF] Now listening on: http://localhost:5010
+[2023-11-16 17:04:01.452 +01:00 INF] Application started. Press Ctrl+C to shut down.
+[2023-11-16 17:04:01.453 +01:00 INF] Hosting environment: Development
+[2023-11-16 17:04:01.453 +01:00 INF] Content root path: C:\Projects\telementrydotnet\telemetry\TelemtryNetProject\Simulator
+[2023-11-16 17:04:05.257 +01:00 INF] Route matched with {action = "SimulateCreateUsers", controller = "Simulate"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SimulateCreateUsers(Simulator.Models.SimulateCreateUsersRequest, System.Threading.CancellationToken) on controller Simulator.Controllers.SimulateController (Simulator).
+[2023-11-16 17:04:05.300 +01:00 INF] Executing action method Simulator.Controllers.SimulateController.SimulateCreateUsers (Simulator) - Validation state: "Valid"
+[2023-11-16 17:04:09.599 +01:00 INF] Executed action method Simulator.Controllers.SimulateController.SimulateCreateUsers (Simulator), returned result Microsoft.AspNetCore.Mvc.OkResult in 4294.3954ms.
+[2023-11-16 17:04:09.604 +01:00 INF] Executing StatusCodeResult, setting HTTP status code 200
+[2023-11-16 17:04:09.607 +01:00 INF] Executed action Simulator.Controllers.SimulateController.SimulateCreateUsers (Simulator) in 4346.5153ms

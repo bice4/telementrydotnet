@@ -15,3 +15,4 @@ scrape_configs:
           - validation-service:8070
           - user-service:8060
           - order-service:8050
+          - invoice-service:8098

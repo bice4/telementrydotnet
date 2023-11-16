@@ -52,7 +52,7 @@
             "mode": "shades"
           },
           "mappings": [],
-          "noValue": "No logs",
+          "noValue": "0",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -116,7 +116,7 @@
             "mode": "shades"
           },
           "mappings": [],
-          "noValue": "No logs",
+          "noValue": "0",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -180,7 +180,7 @@
             "mode": "shades"
           },
           "mappings": [],
-          "noValue": "No logs",
+          "noValue": "0",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -322,8 +322,8 @@
       {
         "current": {
           "selected": true,
-          "text": "ERROR",
-          "value": "ERROR"
+          "text": "All",
+          "value": "$__all"
         },
         "datasource": {
           "type": "loki",
@@ -358,6 +358,6 @@
   "timezone": "",
   "title": "Logs",
   "uid": "g4tAIpp4z",
-  "version": 5,
+  "version": 1,
   "weekStart": ""
 }

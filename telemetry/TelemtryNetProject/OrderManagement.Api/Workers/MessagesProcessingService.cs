@@ -4,7 +4,6 @@ using System.Text.Json;
 using OrderManagementApi.Services;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using RabbitMQ.Client.Exceptions;
 using TelemetryDotNet.Contracts.Order.RabbitMq.v1.Requests;
 
 namespace OrderManagementApi.Workers;

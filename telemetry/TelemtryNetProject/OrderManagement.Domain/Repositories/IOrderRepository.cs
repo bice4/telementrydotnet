@@ -10,4 +10,6 @@ public interface IOrderRepository
     Task<Order?> GetOrderAsync(ObjectId orderId, CancellationToken cancellationToken);
     
     Task<List<Order>> GetOrdersAsync(CancellationToken cancellationToken);
+    
+    Task UpdateOrderAsync(Order order, CancellationToken cancellationToken);
 }

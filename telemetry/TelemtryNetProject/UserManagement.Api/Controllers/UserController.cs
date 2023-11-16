@@ -1,10 +1,8 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using TelemetryDotNet.Contracts.UserManagement.Api.V1.Models;
 using TelemetryDotNet.Contracts.UserManagement.Api.V1.Requests;
 using TelemetryDotNet.Contracts.UserManagement.Api.V1.Responses;
-using TelemetryDotNet.Contracts.ValidationService.Api.v1.Responses;
 using UserManagement.Domain.Repositories;
 using UserManagement.Infrastructure.Services;
 using UserManagement.Metrics;
@@ -92,7 +90,7 @@ public class UserController : ControllerBase
     /// <returns>User id of created user</returns>
     [HttpPost("create")]
     [Produces("application/json")]
-    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(UserShortDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Create(CreateUserRequest request, CancellationToken cancellationToken)
     {
@@ -108,7 +106,7 @@ public class UserController : ControllerBase
             // If user was created successfully, update metrics
             _userMetrics.IncUserCounters(user.Address.Country, user.Age);
 
-            return new OkObjectResult(new CreateUserResponse(user.Id.ToString()!));
+            return new OkObjectResult(user.ToUserShortDto());
         }
         catch (Exception e)
         {

@@ -34,7 +34,12 @@ public class OrderRepository : IOrderRepository
         return collection.Find(_ => true).ToListAsync(cancellationToken)!;
     }
 
-
+    public Task UpdateOrderAsync(Order order, CancellationToken cancellationToken)
+    {
+        var collection = GetCollection();
+        return collection.ReplaceOneAsync(x => x.Id == order.Id, order, cancellationToken: cancellationToken);
+    }
+    
     private IMongoCollection<Order> GetCollection()
     {
         var connectionString = _configuration["MongoDb:ConnectionString"];
