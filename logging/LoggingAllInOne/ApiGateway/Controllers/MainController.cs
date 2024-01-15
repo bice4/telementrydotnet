@@ -23,7 +23,7 @@ public class MainController : ControllerBase
     }
     
     /// <summary>
-    /// Simple endpoint that returns 200 after a delay
+    /// Simple endpoint that returns 300 after a delay
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
@@ -48,6 +48,7 @@ public class MainController : ControllerBase
     public async Task<IActionResult> Post(MainRequest request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Received request {MainRequestId}, {ReferenceId}", request.Id, request.ReferenceId);
+        _logger.LogInformation("Received request json {@MainRequestId}", request);
 
         // Create a new HttpClient with the name "AnotherService"
         using var client = _httpClientFactory.CreateClient("AnotherService");

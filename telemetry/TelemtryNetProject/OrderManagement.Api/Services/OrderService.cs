@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using MongoDB.Bson;
 using OrderManagement.Domain.Repositories;
 using OrderManagementApi.ExternalServices;
 using OrderManagementApi.Metrics;
@@ -46,6 +47,8 @@ public class OrderService
                 return;
             }
 
+            ObjectId orderId = ObjectId.Empty;
+
             try
             {
                 // Create order
@@ -57,15 +60,17 @@ public class OrderService
                 // Update metrics for order
                 // Add order count +1
                 _metrics.AddOrder();
-                
+
                 // Add order price = sum of all order items price
                 _metrics.RecordOrderTotalPrice(order.TotalPrice);
-                
+
                 // Add order quantity = sum of all order items quantity
                 _metrics.RecordOrderTotalQuantity(order.TotalQuantity);
-                
+
                 // Add order items count = sum of all order items quantity
                 _metrics.AddOrderItems(order.Items.Sum(x => x.Quantity));
+
+                orderId = order.Id;
             }
             catch (Exception e)
             {
@@ -75,7 +80,8 @@ public class OrderService
             }
 
             stopwatch.Stop();
-            _logger.LogInformation("Order placed for user {UserId} takes: {Elapsed}", createUserResponse.UserId,
+            _logger.LogInformation("Order with id {OrderId} placed for user {UserId} takes: {Elapsed}", orderId,
+                createUserResponse.UserId,
                 stopwatch.Elapsed);
         }
         finally
